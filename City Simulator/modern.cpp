@@ -1,3 +1,4 @@
+#include <iostream>
 #include <stdexcept>
 
 #include "modern.hpp"
@@ -6,6 +7,19 @@ Modern::Modern(Location location)
 {
     this->setLocation(location);
     this->setRent(location);
+}
+
+Building *Modern::clone() const
+{
+    return new Modern(*this);
+}
+
+void Modern::printStatus() const
+{
+    std::cout << "Building type: " << this->getType()
+              << "\nRent: " << this->rent
+              << "\nResidents: " << this->getNumOfResidents()
+              << std::endl;
 }
 
 const char *Modern::getType() const
