@@ -3,4 +3,5 @@
 namespace BuildingTest
 {
     void basic();
+    void residents();
 }

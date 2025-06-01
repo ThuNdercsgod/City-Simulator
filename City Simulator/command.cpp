@@ -93,6 +93,9 @@ void Command::buildingMenu() const
         case 1:
             BuildingTest::basic();
             break;
+        case 2:
+            BuildingTest::residents();
+            break;
         default:
             std::cerr << "Invalid input!" << std::endl;
             break;
@@ -104,6 +107,7 @@ void Command::printBuildingMenu() const
 {
     std::cout << "\n=== City Simulator Building Tests ===\n"
               << "1. Basic tests\n"
+              << "2. Resident tests\n"
               << "0. Go back\n"
               << std::endl;
 }

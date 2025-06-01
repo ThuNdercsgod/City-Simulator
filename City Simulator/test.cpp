@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 #include "building.hpp"
+#include "resident.hpp"
 #include "test.hpp"
 
 void BuildingTest::basic()
@@ -17,6 +18,25 @@ void BuildingTest::basic()
     }
 
     modern->printStatus();
+
+    delete modern;
+}
+
+void BuildingTest::residents()
+{
+    Location location = Location::Normal;
+    Building *modern = Factory(BuildingType::Modern, location);
+    modern->printStatus();
+
+    Resident test(1);
+
+    modern->addResident(&test);
+
+    modern->print();
+
+    modern->removeResident(&test);
+
+    modern->print();
 
     delete modern;
 }
