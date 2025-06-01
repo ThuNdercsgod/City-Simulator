@@ -28,15 +28,16 @@ void BuildingTest::residents()
     Building *modern = Factory(BuildingType::Modern, location);
     modern->printStatus();
 
-    Resident test(1);
+    Resident *teacher = Factory("Teacher", 1, Profession::Teacher);
 
-    modern->addResident(&test);
+    modern->addResident(teacher);
 
     modern->print();
 
-    modern->removeResident(&test);
+    modern->removeResident(teacher);
 
     modern->print();
 
     delete modern;
+    delete teacher;
 }
