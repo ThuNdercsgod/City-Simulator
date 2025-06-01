@@ -9,11 +9,6 @@ Old::Old(Location location)
     this->setRent(location);
 }
 
-Building *Old::clone() const
-{
-    return new Old(*this);
-}
-
 void Old::printStatus() const
 {
     std::cout << "Building type: " << this->getType()
@@ -32,19 +27,20 @@ double Old::getRent() const
     return this->rent;
 }
 
+// Might throw std::invalid_argument
 void Old::setRent(Location location)
 {
     if (location == Location::Normal)
     {
-        this->rent = 1000;
+        this->rent = 500;
     }
     else if (location == Location::Central)
     {
-        this->rent = 1000 * 2.5;
+        this->rent = 500 * 2.5;
     }
     else if (location == Location::Outer)
     {
-        this->rent = 1000 - (0.2 * 1000);
+        this->rent = 500 - (0.2 * 500);
     }
     else
     {

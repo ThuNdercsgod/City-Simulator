@@ -7,16 +7,15 @@ class Dormitory : public Building
 public:
     Dormitory() = delete;
     Dormitory(Location location);
+    // No copy constructor, because it will copy the Residents
+    Dormitory(const Dormitory &other) = delete;
 
-    Building *clone() const override;
     void printStatus() const override;
 
     const char *getType() const override;
     double getRent() const;
 
 private:
-    Dormitory(const Dormitory &other) = default;
-
     void setRent(Location location);
 
     // Default rent, without location

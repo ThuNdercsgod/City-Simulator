@@ -7,16 +7,15 @@ class Old : public Building
 public:
     Old() = delete;
     Old(Location location);
+    // No copy constructor, because it will copy the Residents
+    Old(const Old &other) = delete;
 
-    Building *clone() const override;
     void printStatus() const override;
 
     const char *getType() const override;
     double getRent() const;
 
 private:
-    Old(const Old &other) = default;
-
     void setRent(Location location);
 
     // Default rent, without location

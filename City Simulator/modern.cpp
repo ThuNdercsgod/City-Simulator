@@ -9,11 +9,6 @@ Modern::Modern(Location location)
     this->setRent(location);
 }
 
-Building *Modern::clone() const
-{
-    return new Modern(*this);
-}
-
 void Modern::printStatus() const
 {
     std::cout << "Building type: " << this->getType()
@@ -32,6 +27,7 @@ double Modern::getRent() const
     return this->rent;
 }
 
+// Might throw std::invalid_argument
 void Modern::setRent(Location location)
 {
     if (location == Location::Normal)

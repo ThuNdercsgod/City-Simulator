@@ -9,11 +9,6 @@ Dormitory::Dormitory(Location location)
     this->setRent(location);
 }
 
-Building *Dormitory::clone() const
-{
-    return new Dormitory(*this);
-}
-
 void Dormitory::printStatus() const
 {
     std::cout << "Building type: " << this->getType()
@@ -32,19 +27,20 @@ double Dormitory::getRent() const
     return this->rent;
 }
 
+// Might throw std::invalid_argument
 void Dormitory::setRent(Location location)
 {
     if (location == Location::Normal)
     {
-        this->rent = 1000;
+        this->rent = 40;
     }
     else if (location == Location::Central)
     {
-        this->rent = 1000 * 2.5;
+        this->rent = 40 * 2.5;
     }
     else if (location == Location::Outer)
     {
-        this->rent = 1000 - (0.2 * 1000);
+        this->rent = 40 - (0.2 * 40);
     }
     else
     {
