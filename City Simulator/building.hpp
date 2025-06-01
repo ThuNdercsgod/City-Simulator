@@ -21,14 +21,13 @@ class Building
 public:
     Building() = default;
     Building(const Building &other) = default;
+    virtual ~Building();
 
-    // TODO make them in the base class
     void addResident(Resident *resident);
     void removeResident(Resident *resident);
     bool checkResident(const Resident *resident) const;
     int checkResidentPosition(const Resident *resident) const;
 
-    virtual Building *clone() const = 0;
     void print() const;
     virtual void printStatus() const = 0;
 
@@ -40,6 +39,7 @@ public:
 protected:
     void setRent(double rent);
     void setLocation(Location location);
+    void setCapacity(unsigned capacity);
 
 private:
     // TODO Maybe Location should be determined when constructing the object
@@ -48,6 +48,7 @@ private:
     Location location = Location::Normal;
     Resident **residents = nullptr;
     unsigned numOfResidents = 0;
+    unsigned capacity = 0;
 };
 
 Building *Factory(BuildingType type, Location location);

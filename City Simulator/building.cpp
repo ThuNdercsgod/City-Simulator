@@ -8,8 +8,25 @@
 
 #include "resident.hpp"
 
+Building::~Building()
+{
+    delete[] this->residents;
+    this->residents = nullptr;
+}
+
+// Might throw std::invalid_argument or std::bad_alloc
 void Building::addResident(Resident *resident)
 {
+    if (this->numOfResidents == this->capacity)
+    {
+        throw std::invalid_argument("Building is full!");
+    }
+    if (resident->getBuilding() != nullptr &&
+        resident->getBuilding()->checkResident(resident))
+    {
+        throw std::invalid_argument("Resident is still living in another Building!");
+    }
+
     if (this->numOfResidents == 0)
     {
         // Create a new array with one pointer, pointing to the new Resident
@@ -35,8 +52,11 @@ void Building::addResident(Resident *resident)
         this->residents = temp;
         this->numOfResidents++;
     }
+    // Make the Resident know his Building
+    resident->setBuilding(this);
 }
 
+// Might throw std::invalid_argument or std::bad_alloc
 void Building::removeResident(Resident *resident)
 {
     int index = this->checkResidentPosition(resident);
@@ -62,6 +82,9 @@ void Building::removeResident(Resident *resident)
     // Assigning this->residents to the corrected collection
     this->residents = temp;
     this->numOfResidents--;
+
+    // Remove the Building from the Resident
+    resident->setBuilding(nullptr);
 }
 
 bool Building::checkResident(const Resident *resident) const
@@ -141,17 +164,27 @@ void Building::setLocation(Location location)
     this->location = location;
 }
 
+void Building::setCapacity(unsigned capacity)
+{
+    this->capacity = capacity;
+}
+
+// Might throw std::bad_alloc or std::invalid_argument
 Building *Factory(BuildingType type, Location location)
 {
     switch (type)
     {
     case BuildingType::Modern:
         return new Modern(location);
+        break;
     case BuildingType::Old:
         return new Old(location);
+        break;
     case BuildingType::Dormitory:
         return new Dormitory(location);
+        break;
     default:
         throw std::invalid_argument("Invalid building type");
+        break;
     }
 }
