@@ -12,6 +12,7 @@ void Building::addResident(Resident *resident)
 {
     if (this->numOfResidents == 0)
     {
+        // Create a new array with one pointer, pointing to the new Resident
         this->residents = new Resident *[1];
         this->residents[0] = resident;
         this->numOfResidents = 1;
@@ -22,22 +23,97 @@ void Building::addResident(Resident *resident)
         Resident **temp = new Resident *[this->numOfResidents + 1];
         for (int i = 0; i < this->numOfResidents; i++)
         {
+            // Copying the pointers
             temp[i] = this->residents[i];
         }
+        // Deleting the old pointers
         delete[] this->residents;
+        // Assigning the pointer to the new Resident
         temp[this->numOfResidents] = resident;
 
+        // Making this->residents to point to the temp array
         this->residents = temp;
         this->numOfResidents++;
     }
 }
 
+void Building::removeResident(Resident *resident)
+{
+    int index = this->checkResidentPosition(resident);
+    if (index == -1) // Check if the Resident is in the building
+    {
+        throw std::invalid_argument("Resident is not in the Building!");
+    }
+
+    // New collection without the removed Resident
+    Resident **temp = new Resident *[this->numOfResidents - 1];
+    for (int i = 0; i < index; i++)
+    {
+        // Assigning everyone before the removed one
+        temp[i] = this->residents[i];
+    }
+    for (int i = index; i < this->numOfResidents - 1; i++)
+    {
+        // Assigning everyone after the removed one
+        temp[i] = this->residents[i + 1];
+    }
+    // Removing the old pointers
+    delete[] this->residents;
+    // Assigning this->residents to the corrected collection
+    this->residents = temp;
+    this->numOfResidents--;
+}
+
+bool Building::checkResident(const Resident *resident) const
+{
+    if (this->numOfResidents == 0)
+    {
+        return false;
+    }
+    for (int i = 0; i < this->numOfResidents; i++)
+    {
+        if (this->residents[i] == resident)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Returns -1 if there is no such Resident
+int Building::checkResidentPosition(const Resident *resident) const
+{
+    if (this->numOfResidents == 0)
+    {
+        return -1;
+    }
+    for (int i = 0; i < this->numOfResidents; i++)
+    {
+        if (this->residents[i] == resident)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Combining all the other printing methods
 void Building::print() const
 {
     this->printStatus();
-    std::cout << "Residents: ...." << std::endl;
 
-    // TODO print residents
+    if (this->numOfResidents == 0)
+    {
+        std::cout << "<No Residents in Building>" << std::endl;
+    }
+    else
+    {
+        for (int i = 0; i < this->numOfResidents; i++)
+        {
+            std::cout << "\t";
+            this->residents[i]->printStatus();
+        }
+    }
 }
 
 double Building::getRent() const

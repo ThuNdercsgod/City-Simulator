@@ -24,8 +24,9 @@ public:
 
     // TODO make them in the base class
     void addResident(Resident *resident);
-    void removeResident(int id);
-    bool checkResident(int id) const;
+    void removeResident(Resident *resident);
+    bool checkResident(const Resident *resident) const;
+    int checkResidentPosition(const Resident *resident) const;
 
     virtual Building *clone() const = 0;
     void print() const;
