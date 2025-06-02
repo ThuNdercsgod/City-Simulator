@@ -2,7 +2,14 @@
 
 class Resident;
 
-enum class Location
+struct Location
+{
+    Location(int x, int y);
+    const int x;
+    const int y;
+};
+
+enum class LocationType
 {
     Normal = 0,
     Central = 1,
@@ -19,8 +26,8 @@ enum class BuildingType
 class Building
 {
 public:
-    Building() = default;
-    Building(const Building &other) = default;
+    Building() = delete;
+    Building(const Building &other) = delete;
     virtual ~Building();
 
     void addResident(Resident *resident);
@@ -33,22 +40,23 @@ public:
 
     virtual const char *getType() const = 0;
     double getRent() const;
-    Location getLocation() const;
+    LocationType getLocationType() const;
     unsigned getNumOfResidents() const;
 
 protected:
+    Building(Location location);
+
     void setRent(double rent);
-    void setLocation(Location location);
+    void setLocationType(LocationType locationType);
     void setCapacity(unsigned capacity);
 
 private:
-    // TODO Maybe Location should be determined when constructing the object
-    // TODO and based on the coordinates of the Building
     double rent = 0;
-    Location location = Location::Normal;
+    Location location;
+    LocationType locationType = LocationType::Normal;
     Resident **residents = nullptr;
     unsigned numOfResidents = 0;
     unsigned capacity = 0;
 };
 
-Building *Factory(BuildingType type, Location location);
+Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned width, unsigned length);

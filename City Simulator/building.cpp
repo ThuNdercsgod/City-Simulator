@@ -8,6 +8,9 @@
 
 #include "resident.hpp"
 
+Location::Location(int x, int y)
+    : x(x), y(y) {}
+
 Building::~Building()
 {
     delete[] this->residents;
@@ -144,9 +147,9 @@ double Building::getRent() const
     return this->rent;
 }
 
-Location Building::getLocation() const
+LocationType Building::getLocationType() const
 {
-    return this->location;
+    return this->locationType;
 }
 
 unsigned Building::getNumOfResidents() const
@@ -154,14 +157,17 @@ unsigned Building::getNumOfResidents() const
     return this->numOfResidents;
 }
 
+Building::Building(Location location)
+    : location(location.x, location.y) {}
+
 void Building::setRent(double rent)
 {
     this->rent = rent;
 }
 
-void Building::setLocation(Location location)
+void Building::setLocationType(LocationType locationType)
 {
-    this->location = location;
+    this->locationType = locationType;
 }
 
 void Building::setCapacity(unsigned capacity)
@@ -170,18 +176,18 @@ void Building::setCapacity(unsigned capacity)
 }
 
 // Might throw std::bad_alloc or std::invalid_argument
-Building *Factory(BuildingType type, Location location)
+Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned width, unsigned length)
 {
-    switch (type)
+    switch (buildingType)
     {
     case BuildingType::Modern:
-        return new Modern(location);
+        return new Modern(location, centerPoint, width, length);
         break;
     case BuildingType::Old:
-        return new Old(location);
+        return new Old(location, centerPoint, width, length);
         break;
     case BuildingType::Dormitory:
-        return new Dormitory(location);
+        return new Dormitory(location, centerPoint, width, length);
         break;
     default:
         throw std::invalid_argument("Invalid building type");

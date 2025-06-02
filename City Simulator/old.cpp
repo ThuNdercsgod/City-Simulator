@@ -1,12 +1,30 @@
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 
 #include "old.hpp"
 
-Old::Old(Location location)
+Old::Old(Location location, Location centerPoint, unsigned width, unsigned length)
+    : Building(location)
 {
-    this->setLocation(location);
-    this->setRent(location);
+    float distanceFromCenter = sqrt((centerPoint.x - location.x) * (centerPoint.x - location.x) -
+                                    (centerPoint.y - location.y) * (centerPoint.y - location.y));
+
+    unsigned min = (width < length) ? width : length;
+
+    if (distanceFromCenter < (min / 8))
+    {
+        this->setLocationType(LocationType::Central);
+    }
+    else if (distanceFromCenter > (6 * min / 8))
+    {
+        this->setLocationType(LocationType::Outer);
+    }
+    else
+    {
+        this->setLocationType(LocationType::Normal);
+    }
+    this->setRent(this->getLocationType());
 }
 
 void Old::printStatus() const
@@ -28,17 +46,17 @@ double Old::getRent() const
 }
 
 // Might throw std::invalid_argument
-void Old::setRent(Location location)
+void Old::setRent(LocationType locationType)
 {
-    if (location == Location::Normal)
+    if (locationType == LocationType::Normal)
     {
         this->rent = 500;
     }
-    else if (location == Location::Central)
+    else if (locationType == LocationType::Central)
     {
         this->rent = 500 * 2.5;
     }
-    else if (location == Location::Outer)
+    else if (locationType == LocationType::Outer)
     {
         this->rent = 500 - (0.2 * 500);
     }

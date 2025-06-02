@@ -1,12 +1,30 @@
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 
 #include "modern.hpp"
 
-Modern::Modern(Location location)
+Modern::Modern(Location location, Location centerPoint, unsigned width, unsigned length)
+    : Building(location)
 {
-    this->setLocation(location);
-    this->setRent(location);
+    float distanceFromCenter = sqrt((centerPoint.x - location.x) * (centerPoint.x - location.x) -
+                                    (centerPoint.y - location.y) * (centerPoint.y - location.y));
+
+    unsigned min = (width < length) ? width : length;
+
+    if (distanceFromCenter < (min / 8))
+    {
+        this->setLocationType(LocationType::Central);
+    }
+    else if (distanceFromCenter > (6 * min / 8))
+    {
+        this->setLocationType(LocationType::Outer);
+    }
+    else
+    {
+        this->setLocationType(LocationType::Normal);
+    }
+    this->setRent(this->getLocationType());
 }
 
 void Modern::printStatus() const
@@ -28,17 +46,17 @@ double Modern::getRent() const
 }
 
 // Might throw std::invalid_argument
-void Modern::setRent(Location location)
+void Modern::setRent(LocationType locationType)
 {
-    if (location == Location::Normal)
+    if (locationType == LocationType::Normal)
     {
         this->rent = 1000;
     }
-    else if (location == Location::Central)
+    else if (locationType == LocationType::Central)
     {
         this->rent = 1000 * 2.5;
     }
-    else if (location == Location::Outer)
+    else if (locationType == LocationType::Outer)
     {
         this->rent = 1000 - (0.2 * 1000);
     }
