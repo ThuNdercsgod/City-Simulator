@@ -72,6 +72,11 @@ unsigned Resident::getHealth() const
     return this->health;
 }
 
+bool Resident::getIsAlive() const
+{
+    return this->isAlive;
+}
+
 void Resident::setBuilding(Building *building)
 {
     this->building = building;
@@ -89,6 +94,11 @@ Resident::Resident(const char *name, unsigned id)
 
     this->name = new char[strlen(name) + 1];
     strcpy(this->name, name);
+}
+
+void Resident::setIsAlive(bool alive)
+{
+    this->isAlive = alive;
 }
 
 void Resident::setHappiness(unsigned happiness)

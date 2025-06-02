@@ -33,6 +33,7 @@ public:
     unsigned getHappiness() const;
     unsigned getMoney() const;
     unsigned getHealth() const;
+    bool getIsAlive() const;
 
     void setBuilding(Building *building);
 
@@ -42,6 +43,7 @@ protected:
     void setHappiness(unsigned happiness);
     void setMoney(unsigned money);
     void setHealth(unsigned health);
+    void setIsAlive(bool alive);
 
 private:
     char *name;
