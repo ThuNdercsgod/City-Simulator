@@ -36,7 +36,7 @@ public:
     int checkResidentPosition(const Resident *resident) const;
 
     void print() const;
-    virtual void printStatus() const = 0;
+    void printStatus() const;
 
     virtual const char *getType() const = 0;
     double getRent() const;

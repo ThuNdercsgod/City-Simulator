@@ -142,6 +142,14 @@ void Building::print() const
     }
 }
 
+void Building::printStatus() const
+{
+    std::cout << "Building type: " << this->getType()
+              << "\nRent: " << this->getRent()
+              << "\nResidents: " << this->getNumOfResidents()
+              << std::endl;
+}
+
 double Building::getRent() const
 {
     return this->rent;
