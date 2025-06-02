@@ -20,19 +20,25 @@ public:
     Resident &operator=(const Resident &other) = delete; // Cannot have 2 identical Residents
     bool operator==(const Resident &other) const;
 
+    virtual void passOneDay(unsigned dayInSim) = 0;
+    virtual void passMultipleDays(unsigned days, unsigned dayInSim) = 0;
+
     void print() const;
-    virtual void printStatus() const = 0;
-    void printProfession() const;
+    void printStatus() const;
 
     const char *getName() const;
     unsigned getId() const;
-    Profession getProfession() const;
+    virtual const char *getProfession() const = 0;
     const Building *getBuilding() const;
     unsigned getHappiness() const;
     unsigned getMoney() const;
     unsigned getHealth() const;
 
     void setBuilding(Building *building);
+
+protected:
+    Resident(const char *name, unsigned id);
+
     void setHappiness(unsigned happiness);
     void setMoney(unsigned money);
     void setHealth(unsigned health);
@@ -40,10 +46,11 @@ public:
 private:
     char *name;
     const unsigned id; // id = <x-coord> <y-coord> <pos in building>
-    const Profession profession;
     Building *building = nullptr;
-    unsigned happiness = 1, money = 1, health = 1;
+    unsigned happiness = 100, money = 5000, health = 100;
     bool isAlive = true;
 };
 
 Resident *Factory(const char *name, unsigned id, Profession profession);
+// TODO
+// Resident *Factory(const char *name, unsigned id, unsigned happiness, unsigned money, unsigned health);

@@ -3,6 +3,11 @@
 #include <stdexcept>
 
 #include "resident.hpp"
+#include "teacher.hpp"
+#include "programmer.hpp"
+#include "miner.hpp"
+#include "unemployed.hpp"
+
 #include "building.hpp"
 
 Resident::~Resident()
@@ -23,35 +28,18 @@ bool Resident::operator==(const Resident &other) const
 
 void Resident::print() const
 {
-    std::cout << "Name: " << this->name
-              << "\nId: " << this->id
-              << "\nProfession: ";
-    this->printProfession();
-    std::cout << "\nBuilding: " << this->getBuilding()->getType()
+    this->printStatus();
+
+    std::cout << "\nProfession: " << this->getProfession()
+              << "\nBuilding: " << this->getBuilding()->getType()
               << std::endl;
 }
 
-// Might throw std::invalid_argument
-void Resident::printProfession() const
+void Resident::printStatus() const
 {
-    switch (this->profession)
-    {
-    case Profession::Teacher:
-        std::cout << "Teacher";
-        break;
-    case Profession::Programmer:
-        std::cout << "Programmer";
-        break;
-    case Profession::Miner:
-        std::cout << "Miner";
-        break;
-    case Profession::Unemployed:
-        std::cout << "Unemployed";
-        break;
-    default:
-        throw std::invalid_argument("Invalid Profession!");
-        break;
-    }
+    std::cout << "Name: " << this->name
+              << "\nId: " << this->id
+              << std::endl;
 }
 
 const char *Resident::getName() const
@@ -62,11 +50,6 @@ const char *Resident::getName() const
 unsigned Resident::getId() const
 {
     return this->id;
-}
-
-Profession Resident::getProfession() const
-{
-    return this->profession;
 }
 
 const Building *Resident::getBuilding() const
@@ -92,6 +75,20 @@ unsigned Resident::getHealth() const
 void Resident::setBuilding(Building *building)
 {
     this->building = building;
+}
+
+// Might throw std::invalid_argument
+Resident::Resident(const char *name, unsigned id)
+    : id(id)
+{
+    if (name == nullptr ||
+        strcmp(name, "") == 0)
+    {
+        throw std::invalid_argument("Ivalid name for Resident!");
+    }
+
+    this->name = new char[strlen(name) + 1];
+    strcpy(this->name, name);
 }
 
 void Resident::setHappiness(unsigned happiness)
@@ -125,6 +122,9 @@ Resident *Factory(const char *name, unsigned id, Profession profession)
         break;
     case Profession::Unemployed:
         return new Unemployed(name, id);
+        break;
+    default:
+        throw std::invalid_argument("Invalid Profession!");
         break;
     }
 }
