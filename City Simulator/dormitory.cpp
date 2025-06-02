@@ -1,9 +1,9 @@
 #include <cmath>
-#include <iostream>
 #include <stdexcept>
 
 #include "dormitory.hpp"
 
+// Might throw std::invalid_argument
 Dormitory::Dormitory(Location location, Location centerPoint, unsigned width, unsigned length)
     : Building(location)
 {
@@ -24,44 +24,25 @@ Dormitory::Dormitory(Location location, Location centerPoint, unsigned width, un
     {
         this->setLocationType(LocationType::Normal);
     }
-    this->setRent(this->getLocationType());
-}
 
-void Dormitory::printStatus() const
-{
-    std::cout << "Building type: " << this->getType()
-              << "\nRent: " << this->rent
-              << "\nResidents: " << this->getNumOfResidents()
-              << std::endl;
+    switch (this->getLocationType())
+    {
+    case LocationType::Normal:
+        this->setRent(40);
+        break;
+    case LocationType::Central:
+        this->setRent(40 * 2.5);
+        break;
+    case LocationType::Outer:
+        this->setRent(40 - (0.2 * 40));
+        break;
+    default:
+        throw std::invalid_argument("Invalid location for Building!");
+        break;
+    }
 }
 
 const char *Dormitory::getType() const
 {
     return "Dormitory";
-}
-
-double Dormitory::getRent() const
-{
-    return this->rent;
-}
-
-// Might throw std::invalid_argument
-void Dormitory::setRent(LocationType locationType)
-{
-    if (locationType == LocationType::Normal)
-    {
-        this->rent = 40;
-    }
-    else if (locationType == LocationType::Central)
-    {
-        this->rent = 40 * 2.5;
-    }
-    else if (locationType == LocationType::Outer)
-    {
-        this->rent = 40 - (0.2 * 40);
-    }
-    else
-    {
-        throw std::invalid_argument("Invalid location for Building!");
-    }
 }

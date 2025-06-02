@@ -1,9 +1,9 @@
 #include <cmath>
-#include <iostream>
 #include <stdexcept>
 
 #include "old.hpp"
 
+// Might throw std::invalid_argument
 Old::Old(Location location, Location centerPoint, unsigned width, unsigned length)
     : Building(location)
 {
@@ -24,44 +24,25 @@ Old::Old(Location location, Location centerPoint, unsigned width, unsigned lengt
     {
         this->setLocationType(LocationType::Normal);
     }
-    this->setRent(this->getLocationType());
-}
 
-void Old::printStatus() const
-{
-    std::cout << "Building type: " << this->getType()
-              << "\nRent: " << this->rent
-              << "\nResidents: " << this->getNumOfResidents()
-              << std::endl;
+    switch (this->getLocationType())
+    {
+    case LocationType::Normal:
+        this->setRent(500);
+        break;
+    case LocationType::Central:
+        this->setRent(500 * 2.5);
+        break;
+    case LocationType::Outer:
+        this->setRent(500 - (0.2 * 500));
+        break;
+    default:
+        throw std::invalid_argument("Invalid location for Building!");
+        break;
+    }
 }
 
 const char *Old::getType() const
 {
     return "Old";
-}
-
-double Old::getRent() const
-{
-    return this->rent;
-}
-
-// Might throw std::invalid_argument
-void Old::setRent(LocationType locationType)
-{
-    if (locationType == LocationType::Normal)
-    {
-        this->rent = 500;
-    }
-    else if (locationType == LocationType::Central)
-    {
-        this->rent = 500 * 2.5;
-    }
-    else if (locationType == LocationType::Outer)
-    {
-        this->rent = 500 - (0.2 * 500);
-    }
-    else
-    {
-        throw std::invalid_argument("Invalid location for Building!");
-    }
 }
