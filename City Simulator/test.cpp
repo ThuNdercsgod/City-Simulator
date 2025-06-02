@@ -7,8 +7,9 @@
 
 void BuildingTest::basic()
 {
-    Location location = Location::Normal;
-    Building *modern = Factory(BuildingType::Modern, location);
+    Location location(0, 0);
+    Location center(5, 5);
+    Building *modern = Factory(BuildingType::Modern, location, center, 10, 10);
 
     if (strcmp(modern->getType(), "Modern") != 0 ||
         modern->getNumOfResidents() != 0)
@@ -24,8 +25,9 @@ void BuildingTest::basic()
 
 void BuildingTest::residents()
 {
-    Location location = Location::Normal;
-    Building *modern = Factory(BuildingType::Modern, location);
+    Location location(0, 0);
+    Location center(5, 5);
+    Building *modern = Factory(BuildingType::Modern, location, center, 10, 10);
     modern->printStatus();
 
     Resident *teacher = Factory("Teacher", 1, Profession::Teacher);
