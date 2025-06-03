@@ -14,6 +14,9 @@ void Miner::passOneDay(unsigned dayInSim)
     {
         this->setMoney(0);
         this->setHealth(0);
+        this->setHappiness(0);
+        this->setIsAlive(false);
+        return;
     }
     else
     {
@@ -23,9 +26,9 @@ void Miner::passOneDay(unsigned dayInSim)
     this->setHappiness(((this->getHealth() - 1) >= 0) ? (this->getHealth() - 1) : 100);
 
     // The 1st day of every month
-    if (dayInSim % 30 == 1)
+    if ((dayInSim + 1) % 30 == 1)
     {
-        // Generate random income between 1200 and 1300 for every month
+        // Generate random income between 1000 and 3000 for every month
         // Algorithm taken from StackOverflow
         static std::random_device rd;
         static std::mt19937 gen(rd());
@@ -33,14 +36,19 @@ void Miner::passOneDay(unsigned dayInSim)
         int income = dist(gen);
         // End of algorithm
 
-        if (this->getMoney() < this->getBuilding()->getRent())
+        if (this->getBuilding() != nullptr &&
+            this->getMoney() < this->getBuilding()->getRent())
         {
             this->setMoney(0);
             this->setHappiness(0);
         }
-        else
+        else if (this->getBuilding() != nullptr)
         {
             this->setMoney(this->getMoney() + income - this->getBuilding()->getRent());
+        }
+        else
+        {
+            this->setMoney(this->getMoney() + income);
         }
     }
 
@@ -56,6 +64,10 @@ void Miner::passMultipleDays(unsigned days, unsigned dayInSim)
 {
     for (int i = 0; i < days; i++)
     {
+        if (this->getIsAlive() == false)
+        {
+            break;
+        }
         this->passOneDay(dayInSim + i);
     }
 }
