@@ -43,3 +43,37 @@ void BuildingTest::residents()
     delete modern;
     delete teacher;
 }
+
+void ResidentTest::basic()
+{
+    Resident *teacher = Factory("Teacher", 1, Profession::Teacher);
+
+    if (strcmp(teacher->getProfession(), "Teacher") != 0 ||
+        teacher->getBuilding() != nullptr)
+    {
+        delete teacher;
+        throw std::invalid_argument("Invalid Teacher!");
+    }
+
+    teacher->print();
+
+    delete teacher;
+}
+
+void ResidentTest::passDays()
+{
+    Resident *teacher = Factory("Teacher", 1, Profession::Teacher);
+    unsigned dayInSim = 1;
+
+    teacher->print();
+    teacher->passOneDay(dayInSim);
+    teacher->print();
+
+    teacher->passMultipleDays(30, dayInSim);
+    if (teacher->getIsAlive())
+    {
+        teacher->print();
+    }
+
+    delete teacher;
+}

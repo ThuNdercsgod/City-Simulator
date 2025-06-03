@@ -11,4 +11,7 @@ public:
 
     void buildingMenu() const;
     void printBuildingMenu() const;
+
+    void residentMenu() const;
+    void printResidentMenu() const;
 };
