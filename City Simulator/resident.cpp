@@ -29,16 +29,35 @@ bool Resident::operator==(const Resident &other) const
 void Resident::print() const
 {
     this->printStatus();
+    this->printCharacteristics();
 
-    std::cout << "\nProfession: " << this->getProfession()
-              << "\nBuilding: " << this->getBuilding()->getType()
-              << std::endl;
+    std::cout << "Profession: " << this->getProfession()
+              << "\nBuilding: ";
+
+    if (this->building != nullptr)
+    {
+        std::cout << this->getBuilding()->getType();
+    }
+    else
+    {
+        std::cout << "<No Building>";
+    }
+
+    std::cout << std::endl;
 }
 
 void Resident::printStatus() const
 {
     std::cout << "Name: " << this->name
               << "\nId: " << this->id
+              << std::endl;
+}
+
+void Resident::printCharacteristics() const
+{
+    std::cout << "Happiness: " << this->happiness
+              << "\nMoney: " << this->money
+              << "\nHealth: " << this->health
               << std::endl;
 }
 

@@ -25,6 +25,7 @@ public:
 
     void print() const;
     void printStatus() const;
+    void printCharacteristics() const;
 
     const char *getName() const;
     unsigned getId() const;
