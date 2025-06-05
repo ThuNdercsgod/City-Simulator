@@ -113,6 +113,10 @@ void Date::passOneDay()
 
 void Date::passMultipleDays(unsigned days)
 {
+    if (days == 0)
+    {
+        return;
+    }
     for (unsigned i = 0; i < days; i++)
     {
         this->passOneDay();

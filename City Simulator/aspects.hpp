@@ -34,6 +34,7 @@ struct Date
 {
 public:
     Date(unsigned day, unsigned month, unsigned year);
+    Date(const Date &other) = default;
 
     void passOneDay();
     void passMultipleDays(unsigned days);
