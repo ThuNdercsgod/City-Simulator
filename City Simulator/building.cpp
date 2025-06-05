@@ -1,3 +1,4 @@
+#include <cstring>
 #include <iostream>
 #include <stdexcept>
 
@@ -103,6 +104,22 @@ bool Building::checkResident(const Resident *resident) const
     return false;
 }
 
+bool Building::checkResident(const char *name) const
+{
+    if (this->numOfResidents == 0)
+    {
+        return false;
+    }
+    for (int i = 0; i < this->numOfResidents; i++)
+    {
+        if (strcmp(this->residents[i]->getName(), name) == 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Returns -1 if there is no such Resident
 int Building::checkResidentPosition(const Resident *resident) const
 {
@@ -113,6 +130,23 @@ int Building::checkResidentPosition(const Resident *resident) const
     for (int i = 0; i < this->numOfResidents; i++)
     {
         if (this->residents[i] == resident)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Returns -1 if there is no such Resident
+int Building::checkResidentPosition(const char *name) const
+{
+    if (this->numOfResidents == 0)
+    {
+        return -1;
+    }
+    for (int i = 0; i < this->numOfResidents; i++)
+    {
+        if (strcmp(this->residents[i]->getName(), name) == 0)
         {
             return i;
         }
@@ -135,6 +169,7 @@ void Building::print() const
         {
             std::cout << "\t";
             this->residents[i]->printStatus();
+            this->residents[i]->printCharacteristics();
         }
     }
 }
@@ -152,9 +187,26 @@ double Building::getRent() const
     return this->rent;
 }
 
+Location Building::getLocation() const
+{
+    return this->location;
+}
+
 LocationType Building::getLocationType() const
 {
     return this->locationType;
+}
+
+const Resident *Building::getResident(const char *name) const
+{
+    int index = this->checkResidentPosition(name);
+
+    if (index == -1)
+    {
+        throw std::invalid_argument("Resident is not in the Building!");
+    }
+
+    return this->residents[index];
 }
 
 unsigned Building::getNumOfResidents() const
@@ -181,18 +233,18 @@ void Building::setCapacity(unsigned capacity)
 }
 
 // Might throw std::bad_alloc or std::invalid_argument
-Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned width, unsigned length)
+Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned length, unsigned width)
 {
     switch (buildingType)
     {
     case BuildingType::Modern:
-        return new Modern(location, centerPoint, width, length);
+        return new Modern(location, centerPoint, length, width);
         break;
     case BuildingType::Old:
-        return new Old(location, centerPoint, width, length);
+        return new Old(location, centerPoint, length, width);
         break;
     case BuildingType::Dormitory:
-        return new Dormitory(location, centerPoint, width, length);
+        return new Dormitory(location, centerPoint, length, width);
         break;
     default:
         throw std::invalid_argument("Invalid building type");

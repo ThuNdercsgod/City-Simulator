@@ -14,15 +14,20 @@ public:
     void addResident(Resident *resident);
     void removeResident(Resident *resident);
     bool checkResident(const Resident *resident) const;
+    bool checkResident(const char *name) const;
     int checkResidentPosition(const Resident *resident) const;
+    int checkResidentPosition(const char *name) const;
 
     void print() const;
     void printStatus() const;
 
     virtual const char *getType() const = 0;
     double getRent() const;
+    Location getLocation() const;
     LocationType getLocationType() const;
+    const Resident *getResident(const char *name) const;
     unsigned getNumOfResidents() const;
+    unsigned getCapacity() const;
 
 protected:
     Building(Location location);
@@ -40,4 +45,4 @@ private:
     unsigned capacity = 0;
 };
 
-Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned width, unsigned length);
+Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned length, unsigned width);
