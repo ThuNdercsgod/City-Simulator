@@ -4,7 +4,7 @@
 #include "dormitory.hpp"
 
 // Might throw std::invalid_argument
-Dormitory::Dormitory(Location location, Location centerPoint, unsigned width, unsigned length)
+Dormitory::Dormitory(Location location, Location centerPoint, unsigned length, unsigned width)
     : Building(location)
 {
     float distanceFromCenter = sqrt((centerPoint.x - location.x) * (centerPoint.x - location.x) -

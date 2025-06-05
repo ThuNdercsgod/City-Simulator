@@ -101,7 +101,7 @@ void Resident::setBuilding(Building *building)
     this->building = building;
 }
 
-// Might throw std::invalid_argument
+// Might throw std::invalid_argument or std::bad_alloc
 Resident::Resident(const char *name, unsigned id)
     : id(id)
 {

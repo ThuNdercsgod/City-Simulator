@@ -4,7 +4,7 @@
 #include "old.hpp"
 
 // Might throw std::invalid_argument
-Old::Old(Location location, Location centerPoint, unsigned width, unsigned length)
+Old::Old(Location location, Location centerPoint, unsigned length, unsigned width)
     : Building(location)
 {
     float distanceFromCenter = sqrt((centerPoint.x - location.x) * (centerPoint.x - location.x) -

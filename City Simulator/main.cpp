@@ -3,7 +3,7 @@
 
 #include "command.hpp"
 
-// g++ building.cpp command.cpp dormitory.cpp main.cpp miner.cpp modern.cpp old.cpp programmer.cpp resident.cpp teacher.cpp test.cpp unemployed.cpp -o main.exe
+// g++ aspects.cpp building.cpp city.cpp command.cpp dormitory.cpp main.cpp miner.cpp modern.cpp old.cpp programmer.cpp resident.cpp teacher.cpp test.cpp unemployed.cpp -o main.exe
 
 int main()
 {

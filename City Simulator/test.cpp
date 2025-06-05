@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 #include "building.hpp"
+#include "city.hpp"
 #include "resident.hpp"
 #include "test.hpp"
 
@@ -63,13 +64,13 @@ void ResidentTest::basic()
 void ResidentTest::passDays()
 {
     Resident *teacher = Factory("Teacher", 1, Profession::Teacher);
-    unsigned dayInSim = 1;
+    Date date(1, 1, 2000);
 
     teacher->print();
-    teacher->passOneDay(dayInSim);
+    teacher->passOneDay(date);
     teacher->print();
 
-    teacher->passMultipleDays(30, dayInSim);
+    teacher->passMultipleDays(date, 31);
     if (teacher->getIsAlive())
     {
         teacher->print();

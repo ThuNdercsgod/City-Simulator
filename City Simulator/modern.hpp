@@ -6,7 +6,7 @@ class Modern : public Building
 {
 public:
     Modern() = delete;
-    Modern(Location location, Location centerPoint, unsigned width, unsigned length);
+    Modern(Location location, Location centerPoint, unsigned length, unsigned width);
     // No copy constructor, because it will copy the Residents
     Modern(const Modern &other) = delete;
 
