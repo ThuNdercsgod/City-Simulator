@@ -8,9 +8,6 @@
 
 #include "resident.hpp"
 
-Location::Location(int x, int y)
-    : x(x), y(y) {}
-
 Building::~Building()
 {
     delete[] this->residents;

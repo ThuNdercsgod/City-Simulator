@@ -1,27 +1,8 @@
 #pragma once
 
+#include "aspects.hpp"
+
 class Resident;
-
-struct Location
-{
-    Location(int x, int y);
-    const int x;
-    const int y;
-};
-
-enum class LocationType
-{
-    Normal = 0,
-    Central = 1,
-    Outer = 2
-};
-
-enum class BuildingType
-{
-    Modern = 0,
-    Old = 1,
-    Dormitory = 2
-};
 
 class Building
 {

@@ -1,14 +1,8 @@
 #pragma once
 
-class Building;
+#include "aspects.hpp"
 
-enum class Profession
-{
-    Teacher = 0,
-    Programmer = 1,
-    Miner = 2,
-    Unemployed = 3
-};
+class Building;
 
 class Resident
 {
@@ -20,8 +14,8 @@ public:
     Resident &operator=(const Resident &other) = delete; // Cannot have 2 identical Residents
     bool operator==(const Resident &other) const;
 
-    virtual void passOneDay(unsigned dayInSim) = 0;
-    virtual void passMultipleDays(unsigned days, unsigned dayInSim) = 0;
+    virtual void passOneDay(Date &currentDate) = 0;
+    virtual void passMultipleDays(Date &currentDate, unsigned days) = 0;
 
     void print() const;
     void printStatus() const;
