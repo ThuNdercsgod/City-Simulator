@@ -10,29 +10,37 @@ class City
 {
 public:
     City() = delete;
-    City(unsigned length, unsigned width);
+    City(unsigned length, unsigned width, Date date);
     City(const City &other) = delete;
     ~City();
 
-    void addResident(Resident *resident) const;
-    void removeResident(Resident *resident) const;
-    bool checkResident(Resident *resident) const;
+    void addResident(Resident *resident, Location location) const;
+    void removeResident(Resident *resident, Location location) const;
+    // bool checkResident(Resident *resident) const;
     // int checkResidentPosition(Resident *resident) const;
 
     void passOneDay(Date &currentDate) const;
     void passMultipleDays(Date &currentDate, unsigned days) const;
 
+    // TODO Make it look cleaner
     void print() const;
-    void printBuilding(unsigned x, unsigned y) const;
-    void printResident(unsigned x, unsigned y, const char *name) const;
+    void printBuilding(Location location) const;
+    void printResident(Location location, const char *name) const;
 
     unsigned getLength() const;
     unsigned getWidth() const;
+    Location getCenterPoint() const;
+    const Building *getBuilding(Location location) const;
+    Date getStartDate() const;
+    Date getCurrentDate() const;
 
 private:
+    void clearBuildings(unsigned length, unsigned width);
+
     const unsigned length;
     const unsigned width;
-    Building **buildings = nullptr;
-    Date startDate;
+    const Location centerPoint;
+    Building ***buildings = nullptr;
+    const Date startDate;
     Date currentDate;
 };
