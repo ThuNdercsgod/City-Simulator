@@ -7,7 +7,7 @@
 Teacher::Teacher(const char *name, unsigned id)
     : Resident(name, id) {}
 
-void Teacher::passOneDay(unsigned dayInSim)
+void Teacher::passOneDay(Date &currentDate)
 {
     // Food
     if (this->getMoney() < 50)
@@ -26,7 +26,7 @@ void Teacher::passOneDay(unsigned dayInSim)
     this->setHappiness(((this->getHappiness() + 1) <= 100) ? (this->getHappiness() + 1) : 100);
 
     // The 1st day of every month
-    if ((dayInSim + 1) % 30 == 1)
+    if (currentDate.getDay() == 1)
     {
         // Generate random income between 1200 and 1300 for every month
         // Algorithm taken from StackOverflow
@@ -52,6 +52,8 @@ void Teacher::passOneDay(unsigned dayInSim)
         }
     }
 
+    currentDate.passOneDay();
+
     if (this->getHappiness() == 0 &&
         this->getMoney() == 0 &&
         this->getHealth() == 0)
@@ -60,15 +62,19 @@ void Teacher::passOneDay(unsigned dayInSim)
     }
 }
 
-void Teacher::passMultipleDays(unsigned days, unsigned dayInSim)
+void Teacher::passMultipleDays(Date &currentDate, unsigned days)
 {
-    for (int i = 0; i < days; i++)
+    if (days == 0)
+    {
+        return;
+    }
+    for (unsigned i = 0; i < days; i++)
     {
         if (this->getIsAlive() == false)
         {
             break;
         }
-        this->passOneDay(dayInSim + i);
+        this->passOneDay(currentDate);
     }
 }
 

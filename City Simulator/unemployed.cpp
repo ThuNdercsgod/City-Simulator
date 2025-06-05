@@ -5,7 +5,7 @@
 Unemployed::Unemployed(const char *name, unsigned id)
     : Resident(name, id) {}
 
-void Unemployed::passOneDay(unsigned dayInSim)
+void Unemployed::passOneDay(Date &currentDate)
 {
     // Food
     if (this->getMoney() < 50)
@@ -24,7 +24,7 @@ void Unemployed::passOneDay(unsigned dayInSim)
     this->setHappiness(((this->getHealth() - 1) >= 0) ? (this->getHealth() - 1) : 100);
 
     // The 1st day of every month
-    if ((dayInSim + 1) % 30 == 1)
+    if (currentDate.getDay() == 1)
     {
         int income = 0;
 
@@ -44,6 +44,8 @@ void Unemployed::passOneDay(unsigned dayInSim)
         }
     }
 
+    currentDate.passOneDay();
+
     if (this->getHappiness() == 0 &&
         this->getMoney() == 0 &&
         this->getHealth() == 0)
@@ -52,15 +54,19 @@ void Unemployed::passOneDay(unsigned dayInSim)
     }
 }
 
-void Unemployed::passMultipleDays(unsigned days, unsigned dayInSim)
+void Unemployed::passMultipleDays(Date &currentDate, unsigned days)
 {
-    for (int i = 0; i < days; i++)
+    if (days == 0)
+    {
+        return;
+    }
+    for (unsigned i = 0; i < days; i++)
     {
         if (this->getIsAlive() == false)
         {
             break;
         }
-        this->passOneDay(dayInSim + i);
+        this->passOneDay(currentDate);
     }
 }
 

@@ -7,7 +7,7 @@
 Programmer::Programmer(const char *name, unsigned id)
     : Resident(name, id) {}
 
-void Programmer::passOneDay(unsigned dayInSim)
+void Programmer::passOneDay(Date &currentDate)
 {
     // Food
     if (this->getMoney() < 50)
@@ -26,7 +26,7 @@ void Programmer::passOneDay(unsigned dayInSim)
     this->setHappiness(((this->getHappiness() - 1) >= 0) ? (this->getHappiness() - 1) : 100);
 
     // The 1st day of every month
-    if ((dayInSim + 1) % 30 == 1)
+    if (currentDate.getDay() == 1)
     {
         // Generate random income between 2000 and 5000 for every month
         // Algorithm taken from StackOverflow
@@ -52,6 +52,8 @@ void Programmer::passOneDay(unsigned dayInSim)
         }
     }
 
+    currentDate.passOneDay();
+
     if (this->getHappiness() == 0 &&
         this->getMoney() == 0 &&
         this->getHealth() == 0)
@@ -60,15 +62,19 @@ void Programmer::passOneDay(unsigned dayInSim)
     }
 }
 
-void Programmer::passMultipleDays(unsigned days, unsigned dayInSim)
+void Programmer::passMultipleDays(Date &currentDate, unsigned days)
 {
-    for (int i = 0; i < days; i++)
+    if (days == 0)
+    {
+        return;
+    }
+    for (unsigned i = 0; i < days; i++)
     {
         if (this->getIsAlive() == false)
         {
             break;
         }
-        this->passOneDay(dayInSim + i);
+        this->passOneDay(currentDate);
     }
 }
 

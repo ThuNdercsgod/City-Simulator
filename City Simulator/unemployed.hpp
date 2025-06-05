@@ -11,8 +11,8 @@ public:
 
     Unemployed &operator=(const Unemployed &other) = delete;
 
-    void passOneDay(unsigned dayInSim) override;
-    void passMultipleDays(unsigned days, unsigned dayInSim) override;
+    void passOneDay(Date &currentDate) override;
+    void passMultipleDays(Date &currentDate, unsigned days) override;
 
     const char *getProfession() const override;
 };
