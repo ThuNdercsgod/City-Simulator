@@ -14,10 +14,11 @@ public:
     City(const City &other) = delete;
     ~City();
 
+    // TODO maybe also add them with Resident name
     void addResident(Resident *resident, Location location) const;
     void removeResident(Resident *resident, Location location) const;
-    // bool checkResident(Resident *resident) const;
-    // int checkResidentPosition(Resident *resident) const;
+    bool checkResident(Resident *resident, Location location) const;
+    int checkResidentPosition(Resident *resident, Location location) const;
 
     void passOneDay(Date &currentDate) const;
     void passMultipleDays(Date &currentDate, unsigned days) const;
@@ -25,7 +26,7 @@ public:
     // TODO Make it look cleaner
     void print() const;
     void printBuilding(Location location) const;
-    void printResident(Location location, const char *name) const;
+    void printResident(const char *name, Location location) const;
 
     unsigned getLength() const;
     unsigned getWidth() const;

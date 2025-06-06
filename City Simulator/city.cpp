@@ -61,7 +61,122 @@ City::~City()
     this->clearBuildings(this->length, this->width);
 }
 
-void City::print() const {}
+// Might throw std::invalid_argument or std::bad_alloc
+void City::addResident(Resident *resident, Location location) const
+{
+    if (location.x >= this->length - 1 || location.y >= this->width)
+    {
+        // The user can correct themself
+        std::cerr << "Building is outside of the city!" << std::endl;
+        return;
+    }
+    if (this->buildings[location.y][location.x] == nullptr)
+    {
+        // The program would crash if the Building is nullptr,
+        // that's why we throw an exception
+        throw std::invalid_argument("Building does not exist!");
+    }
+    this->buildings[location.y][location.x]->addResident(resident);
+}
+
+void City::removeResident(Resident *resident, Location location) const
+{
+    if (location.x > this->length || location.y > this->width)
+    {
+        // The user can correct themself
+        std::cerr << "Building is outside of the city!" << std::endl;
+        return;
+    }
+    if (this->buildings[location.y][location.x] == nullptr)
+    {
+        // The program would crash if the Building is nullptr,
+        // that's why we throw an exception
+        throw std::invalid_argument("Building does not exist!");
+    }
+    this->buildings[location.y][location.x]->removeResident(resident);
+}
+
+bool City::checkResident(Resident *resident, Location location) const
+{
+    if (location.x > this->length || location.y > this->width)
+    {
+        // The user can correct themself
+        std::cerr << "Building is outside of the city!" << std::endl;
+        return;
+    }
+    if (this->buildings[location.y][location.x] == nullptr)
+    {
+        // The program would crash if the Building is nullptr,
+        // that's why we throw an exception
+        throw std::invalid_argument("Building does not exist!");
+    }
+    this->buildings[location.y][location.x]->checkResident(resident);
+}
+
+int City::checkResidentPosition(Resident *resident, Location location) const
+{
+    if (location.x > this->length || location.y > this->width)
+    {
+        // The user can correct themself
+        std::cerr << "Building is outside of the city!" << std::endl;
+        return;
+    }
+    if (this->buildings[location.y][location.x] == nullptr)
+    {
+        // The program would crash if the Building is nullptr,
+        // that's why we throw an exception
+        throw std::invalid_argument("Building does not exist!");
+    }
+    return this->buildings[location.y][location.x]->checkResidentPosition(resident);
+}
+
+void City::passOneDay(Date &currentDate) const
+{
+    for (int i = 0; i < this->width; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            if (this->buildings[i][j] == nullptr)
+            {
+                // The program would crash if the Building is nullptr,
+                // that's why we throw an exception
+                throw std::invalid_argument("Building does not exist!");
+            }
+
+            this->buildings[i][j]->passOneDay(currentDate);
+        }
+    }
+}
+
+void City::passMultipleDays(Date &currentDate, unsigned days) const
+{
+    for (int i = 0; i < this->width; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            if (this->buildings[i][j] == nullptr)
+            {
+                // The program would crash if the Building is nullptr,
+                // that's why we throw an exception
+                throw std::invalid_argument("Building does not exist!");
+            }
+
+            this->buildings[i][j]->passMultipleDays(currentDate, days);
+        }
+    }
+}
+
+void City::print() const
+{
+    for (int i = 0; i < this->width; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            Location buildingLoc(j, i);
+            this->printBuilding(buildingLoc);
+        }
+    }
+}
 
 void City::printBuilding(Location location) const
 {
@@ -76,7 +191,7 @@ void City::printBuilding(Location location) const
     }
 }
 
-void City::printResident(Location location, const char *name) const
+void City::printResident(const char *name, Location location) const
 {
     if (location.x > this->length || location.y > this->width)
     {
