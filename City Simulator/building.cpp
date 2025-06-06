@@ -20,7 +20,8 @@ void Building::addResident(Resident *resident)
 {
     if (this->numOfResidents == this->capacity)
     {
-        throw std::invalid_argument("Building is full!");
+        std::cerr << "Building is full!" << std::endl;
+        return;
     }
     if (resident->getBuilding() != nullptr &&
         resident->getBuilding()->checkResident(resident))
@@ -63,7 +64,8 @@ void Building::removeResident(Resident *resident)
     int index = this->checkResidentPosition(resident);
     if (index == -1) // Check if the Resident is in the building
     {
-        throw std::invalid_argument("Resident is not in the Building!");
+        std::cerr << "Resident is not in the Building!";
+        return;
     }
 
     // New collection without the removed Resident
@@ -154,6 +156,30 @@ int Building::checkResidentPosition(const char *name) const
     return -1;
 }
 
+void Building::passOneDay(Date &currentDate) const
+{
+    for (int i = 0; i < this->numOfResidents; i++)
+    {
+        if (this->residents[i] == nullptr)
+        {
+            throw std::invalid_argument("Resident does not exist!");
+        }
+        this->residents[i]->passOneDay(currentDate);
+    }
+}
+
+void Building::passMultipleDays(Date &currentDate, unsigned days) const
+{
+    for (int i = 0; i < this->numOfResidents; i++)
+    {
+        if (this->residents[i] == nullptr)
+        {
+            throw std::invalid_argument("Resident does not exist!");
+        }
+        this->residents[i]->passMultipleDays(currentDate, days);
+    }
+}
+
 // Combining all the other printing methods
 void Building::print() const
 {
@@ -212,6 +238,11 @@ const Resident *Building::getResident(const char *name) const
 unsigned Building::getNumOfResidents() const
 {
     return this->numOfResidents;
+}
+
+unsigned Building::getCapacity() const
+{
+    return this->capacity;
 }
 
 Building::Building(Location location)

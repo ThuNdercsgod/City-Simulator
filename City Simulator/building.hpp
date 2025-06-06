@@ -18,6 +18,9 @@ public:
     int checkResidentPosition(const Resident *resident) const;
     int checkResidentPosition(const char *name) const;
 
+    void passOneDay(Date &currentDate) const;
+    void passMultipleDays(Date &currentDate, unsigned days) const;
+
     void print() const;
     void printStatus() const;
 
