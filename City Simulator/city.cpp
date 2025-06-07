@@ -10,8 +10,9 @@
 City::City(unsigned length, unsigned width, Date date)
     : length(length), width(width), startDate(date), currentDate(date), centerPoint(length / 2, width / 2)
 {
-    // Cannot have a City without Buildings
-    if (length == 0 || width == 0)
+    // Cannot have a City without Buildings or with 101x101 size
+    if (length == 0 || width == 0 ||
+        length > 100 || width > 100)
     {
         throw std::invalid_argument("Invalid size of City!");
     }
