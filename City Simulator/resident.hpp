@@ -17,6 +17,8 @@ public:
     virtual void passOneDay(Date &currentDate) = 0;
     virtual void passMultipleDays(Date &currentDate, unsigned days) = 0;
 
+    Resident *createRandomResident(Location location, unsigned position) const;
+
     void print() const;
     void printStatus() const;
     void printCharacteristics() const;
@@ -34,6 +36,8 @@ public:
 
 protected:
     Resident(const char *name, unsigned id);
+
+    const char *createRandomName() const;
 
     void setHappiness(unsigned happiness);
     void setMoney(unsigned money);

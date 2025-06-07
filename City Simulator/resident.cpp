@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+#include <random>
 #include <stdexcept>
 
 #include "resident.hpp"
@@ -24,6 +25,42 @@ bool Resident::operator==(const Resident &other) const
         return true;
     }
     return false;
+}
+
+// Location and position needed to create a unique id
+// Might throw std::invalid_argument or std::bad_alloc
+Resident *Resident::createRandomResident(Location location, unsigned position) const
+{
+    // Generate random Resident profession
+    // Algorithm taken from StackOverflow
+    // <the same one as the random income generator>
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, 3);
+    // End of algorithm
+
+    unsigned profession = dist(gen);
+    const char *name = this->createRandomName();
+    unsigned id = location.x * 10000 + location.y * 100 + position;
+
+    switch (profession)
+    {
+    case 0:
+        return Factory(name, id, Profession::Teacher);
+        break;
+    case 1:
+        return Factory(name, id, Profession::Programmer);
+        break;
+    case 2:
+        return Factory(name, id, Profession::Miner);
+        break;
+    case 3:
+        return Factory(name, id, Profession::Unemployed);
+        break;
+    default:
+        throw std::invalid_argument("Invalid Profession for Random Resident!");
+        break;
+    }
 }
 
 void Resident::print() const
@@ -115,9 +152,40 @@ Resident::Resident(const char *name, unsigned id)
     strcpy(this->name, name);
 }
 
-void Resident::setIsAlive(bool alive)
+// Pick a random name form an already existing list
+const char *Resident::createRandomName() const
 {
-    this->isAlive = alive;
+    static const char *names[20] = {
+        "Gosho",
+        "Misho",
+        "Marti",
+        "Marto",
+        "Nicki",
+        "Mayya",
+        "Jorro",
+        "Aycha",
+        "Yulli",
+        "Kremi",
+        "Ketti",
+        "Katti",
+        "Georg",
+        "Kriss",
+        "Bobbi",
+        "Ivann",
+        "Mitko",
+        "Radda",
+        "Maria",
+        "Vladi"};
+
+    // Generate random Name position
+    // Algorithm taken from StackOverflow
+    // <the same one as the random income generator>
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, 19);
+    // End of algorithm
+
+    return names[dist(gen)];
 }
 
 void Resident::setHappiness(unsigned happiness)
@@ -133,6 +201,11 @@ void Resident::setMoney(unsigned money)
 void Resident::setHealth(unsigned health)
 {
     this->health = health;
+}
+
+void Resident::setIsAlive(bool alive)
+{
+    this->isAlive = alive;
 }
 
 // Might throw std::bad_alloc or std::invalid_argument
