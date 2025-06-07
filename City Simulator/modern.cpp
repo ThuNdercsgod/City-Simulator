@@ -3,7 +3,7 @@
 
 #include "modern.hpp"
 
-// Might throw std::invalid_argument
+// Might throw std::invalid_argument or std::bad_alloc
 Modern::Modern(Location location, Location centerPoint, unsigned length, unsigned width)
     : Building(location)
 {
@@ -40,6 +40,8 @@ Modern::Modern(Location location, Location centerPoint, unsigned length, unsigne
         throw std::invalid_argument("Invalid location for Building!");
         break;
     }
+    this->setCapacity(10);
+    this->createRandomResidents();
 }
 
 const char *Modern::getType() const

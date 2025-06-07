@@ -3,7 +3,7 @@
 
 #include "old.hpp"
 
-// Might throw std::invalid_argument
+// Might throw std::invalid_argument or std::bad_alloc
 Old::Old(Location location, Location centerPoint, unsigned length, unsigned width)
     : Building(location)
 {
@@ -40,6 +40,8 @@ Old::Old(Location location, Location centerPoint, unsigned length, unsigned widt
         throw std::invalid_argument("Invalid location for Building!");
         break;
     }
+    this->setCapacity(20);
+    this->createRandomResidents();
 }
 
 const char *Old::getType() const

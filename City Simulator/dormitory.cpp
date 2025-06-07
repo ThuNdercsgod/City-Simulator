@@ -3,7 +3,7 @@
 
 #include "dormitory.hpp"
 
-// Might throw std::invalid_argument
+// Might throw std::invalid_argument or std::bad_alloc
 Dormitory::Dormitory(Location location, Location centerPoint, unsigned length, unsigned width)
     : Building(location)
 {
@@ -40,6 +40,8 @@ Dormitory::Dormitory(Location location, Location centerPoint, unsigned length, u
         throw std::invalid_argument("Invalid location for Building!");
         break;
     }
+    this->setCapacity(5);
+    this->createRandomResidents();
 }
 
 const char *Dormitory::getType() const
