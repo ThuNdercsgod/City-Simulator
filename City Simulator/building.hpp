@@ -35,6 +35,8 @@ public:
 protected:
     Building(Location location);
 
+    void createRandomResidents();
+
     void setRent(double rent);
     void setLocationType(LocationType locationType);
     void setCapacity(unsigned capacity);

@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+#include <random>
 #include <stdexcept>
 
 #include "building.hpp"
@@ -247,6 +248,33 @@ unsigned Building::getCapacity() const
 
 Building::Building(Location location)
     : location(location.x, location.y) {}
+
+// Creates a random number of random Residents with random professions
+// Might throw std::invalid_argument or std::bad_alloc
+void Building::createRandomResidents()
+{
+    // Generate random number of Residents
+    // Algorithm taken from StackOverflow
+    // <the same one as the random income generator>
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, this->capacity);
+    // End of algorithm
+
+    this->numOfResidents = dist(gen);
+
+    if (this->numOfResidents > this->capacity)
+    {
+        throw std::invalid_argument("Invalid number of Residents in Building!");
+    }
+
+    this->residents = new Resident *[this->numOfResidents];
+
+    for (unsigned i = 0; i < this->numOfResidents; i++)
+    {
+        this->residents[i] = residents[i]->createRandomResident(this->location, i);
+    }
+}
 
 void Building::setRent(double rent)
 {
