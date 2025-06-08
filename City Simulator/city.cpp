@@ -44,13 +44,13 @@ City::City(unsigned length, unsigned width, Date date)
             switch (type)
             {
             case 0:
-                buildings[i][j] = Factory(BuildingType::Modern, location, this->centerPoint, this->length, this->width);
+                buildings[i][j] = Building::Factory(BuildingType::Modern, location, this->centerPoint, this->length, this->width);
                 break;
             case 1:
-                buildings[i][j] = Factory(BuildingType::Old, location, this->centerPoint, this->length, this->width);
+                buildings[i][j] = Building::Factory(BuildingType::Old, location, this->centerPoint, this->length, this->width);
                 break;
             case 2:
-                buildings[i][j] = Factory(BuildingType::Dormitory, location, this->centerPoint, this->length, this->width);
+                buildings[i][j] = Building::Factory(BuildingType::Dormitory, location, this->centerPoint, this->length, this->width);
                 break;
             }
         }
@@ -103,7 +103,7 @@ bool City::checkResident(Resident *resident, Location location) const
     {
         // The user can correct themself
         std::cerr << "Building is outside of the city!" << std::endl;
-        return;
+        return false;
     }
     if (this->buildings[location.y][location.x] == nullptr)
     {
@@ -111,16 +111,17 @@ bool City::checkResident(Resident *resident, Location location) const
         // that's why we throw an exception
         throw std::invalid_argument("Building does not exist!");
     }
-    this->buildings[location.y][location.x]->checkResident(resident);
+    return this->buildings[location.y][location.x]->checkResident(resident);
 }
 
+// Might return -1 if Resident is not in the Building
 int City::checkResidentPosition(Resident *resident, Location location) const
 {
     if (location.x > this->length || location.y > this->width)
     {
         // The user can correct themself
         std::cerr << "Building is outside of the city!" << std::endl;
-        return;
+        return -1;
     }
     if (this->buildings[location.y][location.x] == nullptr)
     {
