@@ -11,13 +11,15 @@ public:
     Resident(const Resident &other) = delete; // Cannot have 2 identical Residents
     virtual ~Resident();
 
+    static Resident *Factory(const char *name, unsigned id, Profession profession);
+
     Resident &operator=(const Resident &other) = delete; // Cannot have 2 identical Residents
     bool operator==(const Resident &other) const;
 
     virtual void passOneDay(Date &currentDate) = 0;
     virtual void passMultipleDays(Date &currentDate, unsigned days) = 0;
 
-    Resident *createRandomResident(Location location, unsigned position) const;
+    static Resident *createRandomResident(Location location, unsigned position);
 
     void print() const;
     void printStatus() const;
@@ -37,7 +39,7 @@ public:
 protected:
     Resident(const char *name, unsigned id);
 
-    const char *createRandomName() const;
+    static const char *createRandomName();
 
     void setHappiness(unsigned happiness);
     void setMoney(unsigned money);
@@ -52,6 +54,5 @@ private:
     bool isAlive = true;
 };
 
-Resident *Factory(const char *name, unsigned id, Profession profession);
 // TODO
 // Resident *Factory(const char *name, unsigned id, unsigned happiness, unsigned money, unsigned health);

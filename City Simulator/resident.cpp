@@ -27,9 +27,32 @@ bool Resident::operator==(const Resident &other) const
     return false;
 }
 
+// Might throw std::bad_alloc or std::invalid_argument
+Resident *Resident::Factory(const char *name, unsigned id, Profession profession)
+{
+    switch (profession)
+    {
+    case Profession::Teacher:
+        return new Teacher(name, id);
+        break;
+    case Profession::Programmer:
+        return new Programmer(name, id);
+        break;
+    case Profession::Miner:
+        return new Miner(name, id);
+        break;
+    case Profession::Unemployed:
+        return new Unemployed(name, id);
+        break;
+    default:
+        throw std::invalid_argument("Invalid Profession!");
+        break;
+    }
+}
+
 // Location and position needed to create a unique id
 // Might throw std::invalid_argument or std::bad_alloc
-Resident *Resident::createRandomResident(Location location, unsigned position) const
+Resident *Resident::createRandomResident(Location location, unsigned position)
 {
     // Generate random Resident profession
     // Algorithm taken from StackOverflow
@@ -40,22 +63,22 @@ Resident *Resident::createRandomResident(Location location, unsigned position) c
     // End of algorithm
 
     unsigned profession = dist(gen);
-    const char *name = this->createRandomName();
+    const char *name = Resident::createRandomName();
     unsigned id = location.x * 10000 + location.y * 100 + position;
 
     switch (profession)
     {
     case 0:
-        return Factory(name, id, Profession::Teacher);
+        return Resident::Factory(name, id, Profession::Teacher);
         break;
     case 1:
-        return Factory(name, id, Profession::Programmer);
+        return Resident::Factory(name, id, Profession::Programmer);
         break;
     case 2:
-        return Factory(name, id, Profession::Miner);
+        return Resident::Factory(name, id, Profession::Miner);
         break;
     case 3:
-        return Factory(name, id, Profession::Unemployed);
+        return Resident::Factory(name, id, Profession::Unemployed);
         break;
     default:
         throw std::invalid_argument("Invalid Profession for Random Resident!");
@@ -153,7 +176,7 @@ Resident::Resident(const char *name, unsigned id)
 }
 
 // Pick a random name form an already existing list
-const char *Resident::createRandomName() const
+const char *Resident::createRandomName()
 {
     static const char *names[20] = {
         "Gosho",
@@ -206,27 +229,4 @@ void Resident::setHealth(unsigned health)
 void Resident::setIsAlive(bool alive)
 {
     this->isAlive = alive;
-}
-
-// Might throw std::bad_alloc or std::invalid_argument
-Resident *Factory(const char *name, unsigned id, Profession profession)
-{
-    switch (profession)
-    {
-    case Profession::Teacher:
-        return new Teacher(name, id);
-        break;
-    case Profession::Programmer:
-        return new Programmer(name, id);
-        break;
-    case Profession::Miner:
-        return new Miner(name, id);
-        break;
-    case Profession::Unemployed:
-        return new Unemployed(name, id);
-        break;
-    default:
-        throw std::invalid_argument("Invalid Profession!");
-        break;
-    }
 }
