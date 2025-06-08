@@ -10,7 +10,7 @@ void BuildingTest::basic()
 {
     Location location(0, 0);
     Location center(5, 5);
-    Building *modern = Factory(BuildingType::Modern, location, center, 10, 10);
+    Building *modern = Building::Factory(BuildingType::Modern, location, center, 10, 10);
 
     if (strcmp(modern->getType(), "Modern") != 0 ||
         modern->getNumOfResidents() != 0)
@@ -28,10 +28,10 @@ void BuildingTest::residents()
 {
     Location location(0, 0);
     Location center(5, 5);
-    Building *modern = Factory(BuildingType::Modern, location, center, 10, 10);
+    Building *modern = Building::Factory(BuildingType::Modern, location, center, 10, 10);
     modern->printStatus();
 
-    Resident *teacher = Factory("Teacher", 1, Profession::Teacher);
+    Resident *teacher = Resident::Factory("Teacher", 1, Profession::Teacher);
 
     modern->addResident(teacher);
 
@@ -47,7 +47,7 @@ void BuildingTest::residents()
 
 void ResidentTest::basic()
 {
-    Resident *teacher = Factory("Teacher", 1, Profession::Teacher);
+    Resident *teacher = Resident::Factory("Teacher", 1, Profession::Teacher);
 
     if (strcmp(teacher->getProfession(), "Teacher") != 0 ||
         teacher->getBuilding() != nullptr)
@@ -63,7 +63,7 @@ void ResidentTest::basic()
 
 void ResidentTest::passDays()
 {
-    Resident *teacher = Factory("Teacher", 1, Profession::Teacher);
+    Resident *teacher = Resident::Factory("Teacher", 1, Profession::Teacher);
     Date date(1, 1, 2000);
 
     teacher->print();
@@ -77,4 +77,13 @@ void ResidentTest::passDays()
     }
 
     delete teacher;
+}
+
+void CityTest::basic()
+{
+    Date date(7, 6, 2025);
+    City city(3, 3, date);
+
+    Location location(0, 0);
+    city.printBuilding(location);
 }

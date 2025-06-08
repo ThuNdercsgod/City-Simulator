@@ -56,10 +56,13 @@ void Command::testsMenu() const
             loop = false;
             break;
         case 1:
-            this->buildingMenu();
+            this->buildingTestMenu();
             break;
         case 2:
-            this->residentMenu();
+            this->residentTestMenu();
+            break;
+        case 3:
+            this->cityTestMenu();
             break;
         default:
             std::cerr << "Invalid input!" << std::endl;
@@ -73,11 +76,12 @@ void Command::printTestsMenu() const
     std::cout << "\n=== City Simulator Tests ===\n"
               << "1. Building tests\n"
               << "2. Resident tests\n"
+              << "3. City tests\n"
               << "0. Go back\n"
               << std::endl;
 }
 
-void Command::buildingMenu() const
+void Command::buildingTestMenu() const
 {
     int input;
     bool loop;
@@ -85,7 +89,7 @@ void Command::buildingMenu() const
     do
     {
         loop = true;
-        this->printBuildingMenu();
+        this->printBuildingTestMenu();
         std::cout << "Enter the number representing the command:" << std::endl;
         std::cin >> input;
 
@@ -107,7 +111,7 @@ void Command::buildingMenu() const
     } while (loop);
 }
 
-void Command::printBuildingMenu() const
+void Command::printBuildingTestMenu() const
 {
     std::cout << "\n=== City Simulator Building Tests ===\n"
               << "1. Basic tests\n"
@@ -116,7 +120,7 @@ void Command::printBuildingMenu() const
               << std::endl;
 }
 
-void Command::residentMenu() const
+void Command::residentTestMenu() const
 {
     int input;
     bool loop;
@@ -124,7 +128,7 @@ void Command::residentMenu() const
     do
     {
         loop = true;
-        this->printResidentMenu();
+        this->printResidentTestMenu();
         std::cout << "Enter the number representing the command:" << std::endl;
         std::cin >> input;
 
@@ -146,11 +150,46 @@ void Command::residentMenu() const
     } while (loop);
 }
 
-void Command::printResidentMenu() const
+void Command::printResidentTestMenu() const
 {
     std::cout << "\n=== City Simulator Resident Tests ===\n"
               << "1. Basic tests\n"
               << "2. Pass days tests\n"
+              << "0. Go back\n"
+              << std::endl;
+}
+
+void Command::cityTestMenu() const
+{
+    int input;
+    bool loop;
+
+    do
+    {
+        loop = true;
+        this->printCityTestMenu();
+        std::cout << "Enter the number representing the command:" << std::endl;
+        std::cin >> input;
+
+        switch (input)
+        {
+        case 0:
+            loop = false;
+            break;
+        case 1:
+            CityTest::basic();
+            break;
+        default:
+            std::cerr << "Invalid input!" << std::endl;
+            break;
+        }
+    } while (loop);
+}
+
+void Command::printCityTestMenu() const
+{
+    std::cout << "\n=== City Simulator City Tests ===\n"
+              << "1. Basic tests\n"
               << "0. Go back\n"
               << std::endl;
 }

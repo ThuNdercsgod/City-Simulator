@@ -9,9 +9,12 @@ public:
     void testsMenu() const;
     void printTestsMenu() const;
 
-    void buildingMenu() const;
-    void printBuildingMenu() const;
+    void buildingTestMenu() const;
+    void printBuildingTestMenu() const;
 
-    void residentMenu() const;
-    void printResidentMenu() const;
+    void residentTestMenu() const;
+    void printResidentTestMenu() const;
+
+    void cityTestMenu() const;
+    void printCityTestMenu() const;
 };
