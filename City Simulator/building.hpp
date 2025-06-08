@@ -11,6 +11,8 @@ public:
     Building(const Building &other) = delete;
     virtual ~Building();
 
+    static Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned length, unsigned width);
+
     void addResident(Resident *resident);
     void removeResident(Resident *resident);
     bool checkResident(const Resident *resident) const;
@@ -49,5 +51,3 @@ private:
     unsigned numOfResidents = 0;
     unsigned capacity = 0;
 };
-
-Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned length, unsigned width);

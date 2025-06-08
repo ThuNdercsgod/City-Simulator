@@ -12,8 +12,33 @@
 
 Building::~Building()
 {
+    for (int i = 0; i < this->numOfResidents; i++)
+    {
+        delete this->residents[i];
+        this->residents[i] = nullptr;
+    }
     delete[] this->residents;
     this->residents = nullptr;
+}
+
+// Might throw std::bad_alloc or std::invalid_argument
+Building *Building::Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned length, unsigned width)
+{
+    switch (buildingType)
+    {
+    case BuildingType::Modern:
+        return new Modern(location, centerPoint, length, width);
+        break;
+    case BuildingType::Old:
+        return new Old(location, centerPoint, length, width);
+        break;
+    case BuildingType::Dormitory:
+        return new Dormitory(location, centerPoint, length, width);
+        break;
+    default:
+        throw std::invalid_argument("Invalid building type");
+        break;
+    }
 }
 
 // Might throw std::invalid_argument or std::bad_alloc
@@ -253,6 +278,10 @@ Building::Building(Location location)
 // Might throw std::invalid_argument or std::bad_alloc
 void Building::createRandomResidents()
 {
+    if (this->capacity == 0)
+    {
+        throw std::invalid_argument("Invalid capacity for Building!");
+    }
     // Generate random number of Residents
     // Algorithm taken from StackOverflow
     // <the same one as the random income generator>
@@ -272,7 +301,7 @@ void Building::createRandomResidents()
 
     for (unsigned i = 0; i < this->numOfResidents; i++)
     {
-        this->residents[i] = residents[i]->createRandomResident(this->location, i);
+        this->residents[i] = Resident::createRandomResident(this->location, i);
     }
 }
 
@@ -289,24 +318,4 @@ void Building::setLocationType(LocationType locationType)
 void Building::setCapacity(unsigned capacity)
 {
     this->capacity = capacity;
-}
-
-// Might throw std::bad_alloc or std::invalid_argument
-Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned length, unsigned width)
-{
-    switch (buildingType)
-    {
-    case BuildingType::Modern:
-        return new Modern(location, centerPoint, length, width);
-        break;
-    case BuildingType::Old:
-        return new Old(location, centerPoint, length, width);
-        break;
-    case BuildingType::Dormitory:
-        return new Dormitory(location, centerPoint, length, width);
-        break;
-    default:
-        throw std::invalid_argument("Invalid building type");
-        break;
-    }
 }
