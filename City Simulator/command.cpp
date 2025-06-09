@@ -179,6 +179,12 @@ void Command::cityTestMenu() const
         case 1:
             CityTest::basic();
             break;
+        case 2:
+            CityTest::passDays();
+            break;
+        case 3:
+            CityTest::resident();
+            break;
         default:
             std::cerr << "Invalid input!" << std::endl;
             break;
@@ -190,6 +196,8 @@ void Command::printCityTestMenu() const
 {
     std::cout << "\n=== City Simulator City Tests ===\n"
               << "1. Basic tests\n"
+              << "2. Pass days test\n"
+              << "3. Resident tests\n"
               << "0. Go back\n"
               << std::endl;
 }

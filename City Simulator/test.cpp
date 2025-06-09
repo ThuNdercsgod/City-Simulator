@@ -1,4 +1,5 @@
 #include <cstring>
+#include <iostream>
 #include <stdexcept>
 
 #include "building.hpp"
@@ -85,5 +86,37 @@ void CityTest::basic()
     City city(3, 3, date);
 
     Location location(0, 0);
+    city.printBuilding(location);
+}
+
+void CityTest::passDays()
+{
+    Date date(9, 6, 2025);
+    City city(3, 3, date);
+
+    Location location(0, 0);
+    city.printBuilding(location);
+
+    city.passOneDay(date);
+    city.printBuilding(location);
+
+    city.passMultipleDays(date, 30);
+    city.printBuilding(location);
+}
+
+void CityTest::resident()
+{
+    Date date(9, 6, 2025);
+    City city(3, 3, date);
+
+    Location location(0, 0);
+    city.printBuilding(location);
+
+    Resident *resident = Resident::Factory("Hello", 12345, Profession::Teacher);
+
+    city.addResident(resident, location);
+    city.printBuilding(location);
+
+    city.removeResident(resident->getName(), location);
     city.printBuilding(location);
 }

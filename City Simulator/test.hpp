@@ -15,4 +15,6 @@ namespace ResidentTest
 namespace CityTest
 {
     void basic();
+    void passDays();
+    void resident();
 };
