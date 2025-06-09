@@ -23,7 +23,7 @@ void Miner::passOneDay(Date &currentDate)
         this->setMoney(this->getMoney() - 50);
     }
     // Profession cost
-    this->setHappiness(((this->getHealth() - 1) >= 0) ? (this->getHealth() - 1) : 100);
+    this->setHealth(((this->getHealth() - 1) > 0) ? (this->getHealth() - 1) : 0);
 
     // The 1st day of every month
     if (currentDate.getDay() == 1)
@@ -51,8 +51,6 @@ void Miner::passOneDay(Date &currentDate)
             this->setMoney(this->getMoney() + income);
         }
     }
-
-    currentDate.passOneDay();
 
     if (this->getHappiness() == 0 &&
         this->getMoney() == 0 &&

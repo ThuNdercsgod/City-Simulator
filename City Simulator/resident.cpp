@@ -91,8 +91,7 @@ void Resident::print() const
     this->printStatus();
     this->printCharacteristics();
 
-    std::cout << "Profession: " << this->getProfession()
-              << "\nBuilding: ";
+    std::cout << "\n\t\tBuilding: ";
 
     if (this->building != nullptr)
     {
@@ -108,16 +107,16 @@ void Resident::print() const
 
 void Resident::printStatus() const
 {
-    std::cout << "Name: " << this->name
-              << "\nId: " << this->id
+    std::cout << "\tName: " << this->name
+              << "\n\t\tProfession: " << this->getProfession()
               << std::endl;
 }
 
 void Resident::printCharacteristics() const
 {
-    std::cout << "Happiness: " << this->happiness
-              << "\nMoney: " << this->money
-              << "\nHealth: " << this->health
+    std::cout << "\t\tHappiness: " << this->happiness
+              << "\n\t\tMoney: " << this->money
+              << "\n\t\tHealth: " << this->health
               << std::endl;
 }
 
