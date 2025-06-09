@@ -15,6 +15,7 @@ public:
 
     void addResident(Resident *resident);
     void removeResident(Resident *resident);
+    void removeResident(const char *name);
     bool checkResident(const Resident *resident) const;
     bool checkResident(const char *name) const;
     int checkResidentPosition(const Resident *resident) const;

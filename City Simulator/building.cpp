@@ -116,6 +116,38 @@ void Building::removeResident(Resident *resident)
     resident->setBuilding(nullptr);
 }
 
+void Building::removeResident(const char *name)
+{
+    int index = this->checkResidentPosition(name);
+    if (index == -1) // Check if the Resident is in the building
+    {
+        std::cerr << "Resident is not in the Building!";
+        return;
+    }
+
+    // New collection without the removed Resident
+    Resident **temp = new Resident *[this->numOfResidents - 1];
+
+    // Remove the Building from the Resident
+    this->residents[index]->setBuilding(nullptr);
+
+    for (int i = 0; i < index; i++)
+    {
+        // Assigning everyone before the removed one
+        temp[i] = this->residents[i];
+    }
+    for (int i = index; i < this->numOfResidents - 1; i++)
+    {
+        // Assigning everyone after the removed one
+        temp[i] = this->residents[i + 1];
+    }
+    // Removing the old pointers
+    delete[] this->residents;
+    // Assigning this->residents to the corrected collection
+    this->residents = temp;
+    this->numOfResidents--;
+}
+
 bool Building::checkResident(const Resident *resident) const
 {
     if (this->numOfResidents == 0)
@@ -219,7 +251,6 @@ void Building::print() const
     {
         for (int i = 0; i < this->numOfResidents; i++)
         {
-            std::cout << "\t";
             this->residents[i]->printStatus();
             this->residents[i]->printCharacteristics();
         }
@@ -228,9 +259,9 @@ void Building::print() const
 
 void Building::printStatus() const
 {
-    std::cout << "Building type: " << this->getType()
-              << "\nRent: " << this->getRent()
-              << "\nResidents: " << this->getNumOfResidents()
+    std::cout << "\tBuilding type: " << this->getType()
+              << "\n\tRent: " << this->getRent()
+              << "\n\tResidents: " << this->getNumOfResidents()
               << std::endl;
 }
 
