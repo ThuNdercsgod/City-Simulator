@@ -6,6 +6,9 @@ public:
     void menu() const;
     void printMenu() const;
 
+    void program() const;
+    void printProgram() const;
+
     void testsMenu() const;
     void printTestsMenu() const;
 

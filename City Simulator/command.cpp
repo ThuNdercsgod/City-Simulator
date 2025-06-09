@@ -1,5 +1,7 @@
+#include <cstring>
 #include <iostream>
 
+#include "city.hpp"
 #include "command.hpp"
 #include "test.hpp"
 
@@ -21,6 +23,9 @@ void Command::menu() const
             loop = false;
             break;
         case 1:
+            this->program();
+            break;
+        case 2:
             this->testsMenu();
             break;
         default:
@@ -33,9 +38,77 @@ void Command::menu() const
 void Command::printMenu() const
 {
     std::cout << "\n=== City Simulator ===\n"
-              << "1. Tests\n"
+              << "1. City simulation\n"
+              << "2. Tests\n"
               << "0. Exit\n"
               << std::endl;
+}
+
+void Command::program() const
+{
+    bool loop;
+    char input[256];
+
+    City *city = nullptr;
+
+    do
+    {
+        loop = true;
+
+        std::cout << "Enter command:" << std::endl;
+        std::cin.ignore();
+        std::cin.getline(input, 256, ' ');
+
+        if (strcmp(input, "generate") == 0)
+        {
+            if (city == nullptr)
+            {
+                unsigned length, width;
+                std::cin >> length;
+                std::cin >> width;
+
+                Date date(1, 1, 2000);
+                city = new City(length, width, date);
+            }
+            else
+            {
+                std::cerr << "City already generated!" << std::endl;
+            }
+        }
+        else if (strcmp(input, "add") == 0)
+        {
+        }
+        else if (strcmp(input, "remove") == 0)
+        {
+        }
+        else if (strcmp(input, "step") == 0)
+        {
+        }
+        else if (strcmp(input, "info") == 0)
+        {
+        }
+        else if (strcmp(input, "save") == 0)
+        {
+        }
+        else if (strcmp(input, "load") == 0)
+        {
+        }
+        else if (strcmp(input, "exit") == 0)
+        {
+            loop = false;
+        }
+        else
+        {
+            std::cerr << "Ivalid command!" << std::endl;
+        }
+
+    } while (loop);
+
+    if (city != nullptr)
+    {
+        delete city;
+        city = nullptr;
+    }
 }
 
 void Command::testsMenu() const
