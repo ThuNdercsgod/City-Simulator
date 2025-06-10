@@ -6,7 +6,8 @@ class Teacher : public Resident
 {
 public:
     Teacher() = delete;
-    Teacher(const char *name, unsigned id);
+    Teacher(const char *name);
+    Teacher(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health);
     Teacher(const Teacher &other) = delete;
 
     Teacher &operator=(const Teacher &other) = delete;

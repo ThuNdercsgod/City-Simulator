@@ -4,8 +4,11 @@
 
 #include "building.hpp"
 
-Programmer::Programmer(const char *name, unsigned id)
-    : Resident(name, id) {}
+Programmer::Programmer(const char *name)
+    : Resident(name) {}
+
+Programmer::Programmer(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health)
+    : Resident(name, happiness, money, health) {}
 
 void Programmer::passOneDay(Date &currentDate)
 {

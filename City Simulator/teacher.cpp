@@ -4,8 +4,11 @@
 
 #include "building.hpp"
 
-Teacher::Teacher(const char *name, unsigned id)
-    : Resident(name, id) {}
+Teacher::Teacher(const char *name)
+    : Resident(name) {}
+
+Teacher::Teacher(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health)
+    : Resident(name, happiness, money, health) {}
 
 void Teacher::passOneDay(Date &currentDate)
 {

@@ -4,8 +4,11 @@
 
 #include "building.hpp"
 
-Miner::Miner(const char *name, unsigned id)
-    : Resident(name, id) {}
+Miner::Miner(const char *name)
+    : Resident(name) {}
+
+Miner::Miner(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health)
+    : Resident(name, happiness, money, health) {}
 
 void Miner::passOneDay(Date &currentDate)
 {

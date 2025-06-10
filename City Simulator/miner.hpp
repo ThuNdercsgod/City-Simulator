@@ -6,7 +6,8 @@ class Miner : public Resident
 {
 public:
     Miner() = delete;
-    Miner(const char *name, unsigned id);
+    Miner(const char *name);
+    Miner(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health);
     Miner(const Miner &other) = delete;
 
     Miner &operator=(const Miner &other) = delete;
