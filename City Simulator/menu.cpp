@@ -2,8 +2,8 @@
 #include <iostream>
 
 #include "city.hpp"
-#include "command.hpp"
-#include "test.hpp"
+#include "menu.hpp"
+#include "program.hpp"
 
 void Command::menu() const
 {
@@ -47,61 +47,56 @@ void Command::printMenu() const
 void Command::program() const
 {
     bool loop;
-    char input[256];
+    int input;
 
     City *city = nullptr;
+    Date *date = nullptr;
+
+    // ! Remove when tests are complete
+    date = new Date(1, 1, 2025);
+    city = new City(3, 3, *date);
 
     do
     {
         loop = true;
+        this->printProgram();
+        std::cout << "Enter the number representing the command:" << std::endl;
+        std::cin >> input;
 
-        std::cout << "Enter command:" << std::endl;
-        std::cin.ignore();
-        std::cin.getline(input, 256, ' ');
-
-        if (strcmp(input, "generate") == 0)
+        switch (input)
         {
-            if (city == nullptr)
-            {
-                unsigned length, width;
-                std::cin >> length;
-                std::cin >> width;
-
-                Date date(1, 1, 2000);
-                city = new City(length, width, date);
-            }
-            else
-            {
-                std::cerr << "City already generated!" << std::endl;
-            }
-        }
-        else if (strcmp(input, "add") == 0)
-        {
-        }
-        else if (strcmp(input, "remove") == 0)
-        {
-        }
-        else if (strcmp(input, "step") == 0)
-        {
-        }
-        else if (strcmp(input, "info") == 0)
-        {
-        }
-        else if (strcmp(input, "save") == 0)
-        {
-        }
-        else if (strcmp(input, "load") == 0)
-        {
-        }
-        else if (strcmp(input, "exit") == 0)
-        {
+        case 0:
             loop = false;
+            break;
+        case 1:
+            Program::generate(city, date);
+            break;
+        case 2:
+            Program::addResident(city);
+            break;
+        case 3:
+            Program::removeResident(city);
+            break;
+        case 4:
+            Program::stepOne(city, *date);
+            break;
+        case 5:
+            Program::stepMultiple(city, *date);
+            break;
+        case 6:
+            Program::infoBuilding(city);
+            break;
+        case 7:
+            Program::infoResident(city);
+            break;
+        case 8:
+            Program::info(city);
+            break;
+        // TODO save and load
+        default:
+            std::cerr << "Invalid input!" << std::endl;
+            break;
         }
-        else
-        {
-            std::cerr << "Ivalid command!" << std::endl;
-        }
-
     } while (loop);
 
     if (city != nullptr)
@@ -109,6 +104,28 @@ void Command::program() const
         delete city;
         city = nullptr;
     }
+    if (date != nullptr)
+    {
+        delete date;
+        date = nullptr;
+    }
+}
+
+void Command::printProgram() const
+{
+    std::cout << "\n=== City Simulator ===\n"
+              << "1. Generate City\n"
+              << "2. Add Resident\n"
+              << "3. Remove Resident\n"
+              << "4. Step one day\n"
+              << "5. Step <n> days\n"
+              << "6. Info Building\n"
+              << "7. Info Resident\n"
+              << "8. Info City\n"
+              << "9. Save City\n"
+              << "10. Load City\n"
+              << "0. Go back\n"
+              << std::endl;
 }
 
 void Command::testsMenu() const
@@ -172,10 +189,10 @@ void Command::buildingTestMenu() const
             loop = false;
             break;
         case 1:
-            BuildingTest::basic();
+            Test::BuildingTest::basic();
             break;
         case 2:
-            BuildingTest::residents();
+            Test::BuildingTest::residents();
             break;
         default:
             std::cerr << "Invalid input!" << std::endl;
@@ -211,10 +228,10 @@ void Command::residentTestMenu() const
             loop = false;
             break;
         case 1:
-            ResidentTest::basic();
+            Test::ResidentTest::basic();
             break;
         case 2:
-            ResidentTest::passDays();
+            Test::ResidentTest::passDays();
             break;
         default:
             std::cerr << "Invalid input!" << std::endl;
@@ -250,13 +267,13 @@ void Command::cityTestMenu() const
             loop = false;
             break;
         case 1:
-            CityTest::basic();
+            Test::CityTest::basic();
             break;
         case 2:
-            CityTest::passDays();
+            Test::CityTest::passDays();
             break;
         case 3:
-            CityTest::resident();
+            Test::CityTest::resident();
             break;
         default:
             std::cerr << "Invalid input!" << std::endl;
