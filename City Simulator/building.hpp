@@ -24,6 +24,8 @@ public:
     void passOneDay(Date &currentDate) const;
     void passMultipleDays(Date &currentDate, unsigned days) const;
 
+    void removeNotAliveResidents();
+
     void print() const;
     void printStatus() const;
 
@@ -38,6 +40,7 @@ public:
 protected:
     Building(Location location);
 
+    bool checkName(const char *name, unsigned position) const;
     void createRandomResidents();
 
     void setRent(double rent);

@@ -80,6 +80,26 @@ void City::addResident(Resident *resident, Location location) const
     this->buildings[location.y][location.x]->addResident(resident);
 }
 
+void City::addResident(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health, Location location)
+{
+    if (location.x >= this->length - 1 || location.y >= this->width)
+    {
+        // The user can correct themself
+        std::cerr << "Building is outside of the city!" << std::endl;
+        return;
+    }
+    if (this->buildings[location.y][location.x] == nullptr)
+    {
+        // The program would crash if the Building is nullptr,
+        // that's why we throw an exception
+        throw std::invalid_argument("Building does not exist!");
+    }
+
+    Resident *resident = Resident::Factory(name, profession, happiness, money, health);
+
+    this->buildings[location.y][location.x]->addResident(resident);
+}
+
 void City::removeResident(Resident *resident, Location location) const
 {
     if (location.x > this->length || location.y > this->width)
@@ -211,6 +231,17 @@ void City::passMultipleDays(Date &currentDate, unsigned days) const
     }
 }
 
+void City::removeNotAliveResidents() const
+{
+    for (int i = 0; i < this->width; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            this->buildings[i][j]->removeNotAliveResidents();
+        }
+    }
+}
+
 void City::print() const
 {
     for (int i = 0; i < this->width; i++)
@@ -225,7 +256,7 @@ void City::print() const
 
 void City::printBuilding(Location location) const
 {
-    if (location.x > this->length || location.y > this->width)
+    if (location.x >= this->length || location.y >= this->width)
     {
         std::cerr << "Building is outside of the City!" << std::endl;
     }
@@ -238,7 +269,7 @@ void City::printBuilding(Location location) const
 
 void City::printResident(const char *name, Location location) const
 {
-    if (location.x > this->length || location.y > this->width)
+    if (location.x >= this->length || location.y >= this->width)
     {
         std::cerr << "Resident is outside of the City!" << std::endl;
         return;

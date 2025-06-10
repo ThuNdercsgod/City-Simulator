@@ -156,7 +156,7 @@ bool Building::checkResident(const Resident *resident) const
     }
     for (int i = 0; i < this->numOfResidents; i++)
     {
-        if (this->residents[i] == resident)
+        if (strcmp(this->residents[i]->getName(), resident->getName()) == 0)
         {
             return true;
         }
@@ -189,7 +189,7 @@ int Building::checkResidentPosition(const Resident *resident) const
     }
     for (int i = 0; i < this->numOfResidents; i++)
     {
-        if (this->residents[i] == resident)
+        if (strcmp(this->residents[i]->getName(), resident->getName()) == 0)
         {
             return i;
         }
@@ -235,6 +235,19 @@ void Building::passMultipleDays(Date &currentDate, unsigned days) const
             throw std::invalid_argument("Resident does not exist!");
         }
         this->residents[i]->passMultipleDays(currentDate, days);
+    }
+}
+
+void Building::removeNotAliveResidents()
+{
+    for (int i = 0; i < this->numOfResidents; i++)
+    {
+        if (this->residents[i]->getIsAlive() == false)
+        {
+            this->residents[i]->printStatus();
+            std::cout << "Building: " << this->getType() << std::endl;
+            this->removeResident(this->residents[i]);
+        }
     }
 }
 
@@ -305,6 +318,19 @@ unsigned Building::getCapacity() const
 Building::Building(Location location)
     : location(location.x, location.y) {}
 
+// Check only part of the Residents (not the whole array)
+bool Building::checkName(const char *name, unsigned position) const
+{
+    for (int i = 0; i < position; i++)
+    {
+        if (strcmp(this->residents[i]->getName(), name) == 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Creates a random number of random Residents with random professions
 // Might throw std::invalid_argument or std::bad_alloc
 void Building::createRandomResidents()
@@ -333,6 +359,13 @@ void Building::createRandomResidents()
     for (unsigned i = 0; i < this->numOfResidents; i++)
     {
         this->residents[i] = Resident::createRandomResident(this->location, i);
+        // Check so every name is unique in the Building
+        if (this->checkName(this->residents[i]->getName(), i))
+        {
+            delete this->residents[i];
+            this->residents[i] = nullptr;
+            i--;
+        }
     }
 }
 

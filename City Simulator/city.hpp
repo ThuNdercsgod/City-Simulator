@@ -16,6 +16,7 @@ public:
 
     // TODO maybe also add them with Resident name
     void addResident(Resident *resident, Location location) const;
+    void addResident(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health, Location location);
     void removeResident(Resident *resident, Location location) const;
     void removeResident(const char *name, Location location) const;
     bool checkResident(Resident *resident, Location location) const;
@@ -25,6 +26,8 @@ public:
 
     void passOneDay(Date &currentDate) const;
     void passMultipleDays(Date &currentDate, unsigned days) const;
+
+    void removeNotAliveResidents() const;
 
     // TODO Make it look cleaner
     void print() const;
