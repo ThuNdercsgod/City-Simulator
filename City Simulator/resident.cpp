@@ -17,32 +17,45 @@ Resident::~Resident()
     this->name = nullptr;
 }
 
-bool Resident::operator==(const Resident &other) const
-{
-    // Id is different for every Resident
-    if (this->id == other.id)
-    {
-        return true;
-    }
-    return false;
-}
-
 // Might throw std::bad_alloc or std::invalid_argument
-Resident *Resident::Factory(const char *name, unsigned id, Profession profession)
+Resident *Resident::Factory(const char *name, Profession profession)
 {
     switch (profession)
     {
     case Profession::Teacher:
-        return new Teacher(name, id);
+        return new Teacher(name);
         break;
     case Profession::Programmer:
-        return new Programmer(name, id);
+        return new Programmer(name);
         break;
     case Profession::Miner:
-        return new Miner(name, id);
+        return new Miner(name);
         break;
     case Profession::Unemployed:
-        return new Unemployed(name, id);
+        return new Unemployed(name);
+        break;
+    default:
+        throw std::invalid_argument("Invalid Profession!");
+        break;
+    }
+}
+
+// Might throw std::bad_alloc or std::invalid_argument
+Resident *Resident::Factory(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health)
+{
+    switch (profession)
+    {
+    case Profession::Teacher:
+        return new Teacher(name, profession, happiness, money, health);
+        break;
+    case Profession::Programmer:
+        return new Programmer(name, profession, happiness, money, health);
+        break;
+    case Profession::Miner:
+        return new Miner(name, profession, happiness, money, health);
+        break;
+    case Profession::Unemployed:
+        return new Unemployed(name, profession, happiness, money, health);
         break;
     default:
         throw std::invalid_argument("Invalid Profession!");
@@ -69,16 +82,16 @@ Resident *Resident::createRandomResident(Location location, unsigned position)
     switch (profession)
     {
     case 0:
-        return Resident::Factory(name, id, Profession::Teacher);
+        return Resident::Factory(name, Profession::Teacher);
         break;
     case 1:
-        return Resident::Factory(name, id, Profession::Programmer);
+        return Resident::Factory(name, Profession::Programmer);
         break;
     case 2:
-        return Resident::Factory(name, id, Profession::Miner);
+        return Resident::Factory(name, Profession::Miner);
         break;
     case 3:
-        return Resident::Factory(name, id, Profession::Unemployed);
+        return Resident::Factory(name, Profession::Unemployed);
         break;
     default:
         throw std::invalid_argument("Invalid Profession for Random Resident!");
@@ -125,11 +138,6 @@ const char *Resident::getName() const
     return this->name;
 }
 
-unsigned Resident::getId() const
-{
-    return this->id;
-}
-
 const Building *Resident::getBuilding() const
 {
     return this->building;
@@ -161,8 +169,21 @@ void Resident::setBuilding(Building *building)
 }
 
 // Might throw std::invalid_argument or std::bad_alloc
-Resident::Resident(const char *name, unsigned id)
-    : id(id)
+Resident::Resident(const char *name)
+{
+    if (name == nullptr ||
+        strcmp(name, "") == 0)
+    {
+        throw std::invalid_argument("Ivalid name for Resident!");
+    }
+
+    this->name = new char[strlen(name) + 1];
+    strcpy(this->name, name);
+}
+
+// Might throw std::invalid_argument or std::bad_alloc
+Resident::Resident(const char *name, unsigned happiness, unsigned money, unsigned health)
+    : happiness(happiness), money(money), health(health)
 {
     if (name == nullptr ||
         strcmp(name, "") == 0)
