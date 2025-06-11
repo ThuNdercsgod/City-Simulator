@@ -1,12 +1,19 @@
 #pragma once
 
+class City;
+class Date;
+
 class Command
 {
 public:
-    void menu() const;
+    Command() {};
+    Command(const Command &other) = delete;
+    ~Command();
+
+    void menu();
     void printMenu() const;
 
-    void program() const;
+    void program();
     void printProgram() const;
 
     void testsMenu() const;
@@ -20,4 +27,6 @@ public:
 
     void cityTestMenu() const;
     void printCityTestMenu() const;
+
+    City *city = nullptr;
 };

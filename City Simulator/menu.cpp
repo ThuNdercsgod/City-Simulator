@@ -5,7 +5,16 @@
 #include "menu.hpp"
 #include "program.hpp"
 
-void Command::menu() const
+Command::~Command()
+{
+    if (city != nullptr)
+    {
+        delete city;
+        city = nullptr;
+    }
+}
+
+void Command::menu()
 {
     int input;
     bool loop;
@@ -44,17 +53,10 @@ void Command::printMenu() const
               << std::endl;
 }
 
-void Command::program() const
+void Command::program()
 {
     bool loop;
     int input;
-
-    City *city = nullptr;
-    Date *date = nullptr;
-
-    // ! Remove when tests are complete
-    date = new Date(1, 1, 2025);
-    city = new City(3, 3, *date);
 
     do
     {
@@ -69,28 +71,33 @@ void Command::program() const
             loop = false;
             break;
         case 1:
-            Program::generate(city, date);
+            if (city != nullptr)
+            {
+                std::cerr << "City is already created" << std::endl;
+                break;
+            }
+            this->city = Program::generate();
             break;
         case 2:
-            Program::addResident(city);
+            Program::addResident(this->city);
             break;
         case 3:
-            Program::removeResident(city);
+            Program::removeResident(this->city);
             break;
         case 4:
-            Program::stepOne(city, *date);
+            Program::stepOne(this->city);
             break;
         case 5:
-            Program::stepMultiple(city, *date);
+            Program::stepMultiple(this->city);
             break;
         case 6:
-            Program::infoBuilding(city);
+            Program::infoBuilding(this->city);
             break;
         case 7:
-            Program::infoResident(city);
+            Program::infoResident(this->city);
             break;
         case 8:
-            Program::info(city);
+            Program::info(this->city);
             break;
         // TODO save and load
         default:
@@ -98,17 +105,6 @@ void Command::program() const
             break;
         }
     } while (loop);
-
-    if (city != nullptr)
-    {
-        delete city;
-        city = nullptr;
-    }
-    if (date != nullptr)
-    {
-        delete date;
-        date = nullptr;
-    }
 }
 
 void Command::printProgram() const
