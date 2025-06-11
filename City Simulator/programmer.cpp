@@ -55,10 +55,13 @@ void Programmer::passOneDay(Date &currentDate)
         }
     }
 
-    if (this->getHappiness() == 0 &&
-        this->getMoney() == 0 &&
+    if (this->getHappiness() == 0 ||
+        this->getMoney() == 0 ||
         this->getHealth() == 0)
     {
+        this->setMoney(0);
+        this->setHealth(0);
+        this->setHappiness(0);
         this->setIsAlive(false);
     }
 }
