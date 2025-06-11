@@ -55,6 +55,16 @@ void Date::passOneDay()
     case 7:
     case 8:
     case 10:
+        if (this->day < 31)
+        {
+            this->day++;
+        }
+        else
+        {
+            this->day = 1;
+            this->month++;
+        }
+        break;
     case 12:
         if (this->day < 31)
         {

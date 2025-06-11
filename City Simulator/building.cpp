@@ -240,12 +240,12 @@ void Building::passMultipleDays(Date &currentDate, unsigned days) const
 
 void Building::removeNotAliveResidents()
 {
-    for (int i = 0; i < this->numOfResidents; i++)
+    for (int i = numOfResidents - 1; i >= 0; i--)
     {
         if (this->residents[i]->getIsAlive() == false)
         {
             this->residents[i]->printStatus();
-            std::cout << "Building: " << this->getType() << std::endl;
+            std::cout << "\t\tBuilding: " << this->getType() << std::endl;
             this->removeResident(this->residents[i]);
         }
     }
