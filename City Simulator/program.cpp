@@ -8,15 +8,10 @@
 #include "resident.hpp"
 
 // Might throw std::bad_alloc
-void Program::generate(City *city, Date *date)
+City *Program::generate()
 {
-    if (city != nullptr)
-    {
-        std::cerr << "City is already created" << std::endl;
-        return;
-    }
-
-    date = new Date(1, 1, 2020);
+    City *city;
+    Date date(1, 1, 2020);
 
     int length = -1, width = -1;
     std::cout << "Enter <length> <width>:" << std::endl;
@@ -26,16 +21,16 @@ void Program::generate(City *city, Date *date)
         length <= 0 || width <= 0)
     {
         std::cerr << "Invalid command!" << std::endl;
-        return;
+        return nullptr;
     }
 
-    city = new (std::nothrow) City(length, width, *date);
-    if (!city)
-    {
-        delete date;
-        date = nullptr;
-        throw std::bad_alloc();
-    }
+    city = new City(length, width, date);
+
+    std::cout << "Date: " << city->getCurrentDate().getDay()
+              << "." << city->getCurrentDate().getMonth()
+              << "." << city->getCurrentDate().getYear()
+              << std::endl;
+    return city;
 }
 
 void Program::addResident(City *city)
@@ -79,6 +74,12 @@ void Program::addResident(City *city)
     else if (strcmp(professionText, "Unemployed") == 0)
     {
         profession = Profession::Unemployed;
+    }
+    else
+    {
+        std::cerr << "Invalid Command!" << std::endl;
+        std::cout << "Failed" << std::endl;
+        return;
     }
 
     Location location(x, y);
@@ -138,7 +139,7 @@ void Program::removeResident(City *city)
     }
 }
 
-void Program::stepOne(City *city, Date &currentDate)
+void Program::stepOne(City *city)
 {
     if (city == nullptr)
     {
@@ -146,11 +147,11 @@ void Program::stepOne(City *city, Date &currentDate)
         return;
     }
 
-    city->passOneDay(currentDate);
+    city->passOneDay();
     city->removeNotAliveResidents();
 }
 
-void Program::stepMultiple(City *city, Date &currentDate)
+void Program::stepMultiple(City *city)
 {
     if (city == nullptr)
     {
@@ -171,7 +172,7 @@ void Program::stepMultiple(City *city, Date &currentDate)
 
     for (int i = 0; i < days; i++)
     {
-        Program::stepOne(city, currentDate);
+        Program::stepOne(city);
     }
 }
 
@@ -182,7 +183,10 @@ void Program::info(City *city)
         std::cerr << "City is not yet created!" << std::endl;
         return;
     }
-
+    std::cout << "Date: " << city->getCurrentDate().getDay()
+              << "." << city->getCurrentDate().getMonth()
+              << "." << city->getCurrentDate().getYear()
+              << std::endl;
     city->print();
 }
 
@@ -327,10 +331,10 @@ void Test::CityTest::passDays()
     Location location(0, 0);
     city.printBuilding(location);
 
-    city.passOneDay(date);
+    city.passOneDay();
     city.printBuilding(location);
 
-    city.passMultipleDays(date, 30);
+    city.passMultipleDays(30);
     city.printBuilding(location);
 }
 

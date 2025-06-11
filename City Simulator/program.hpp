@@ -6,13 +6,13 @@ class City;
 
 namespace Program
 {
-    void generate(City *city, Date *date);
+    City *generate();
 
     void addResident(City *city);
     void removeResident(City *city);
 
-    void stepOne(City *city, Date &currentDate);
-    void stepMultiple(City *city, Date &currentDate);
+    void stepOne(City *city);
+    void stepMultiple(City *city);
 
     void info(City *city);
     void infoBuilding(City *city);
