@@ -24,8 +24,8 @@ public:
     int checkResidentPosition(Resident *resident, Location location) const;
     int checkResidentPosition(const char *name, Location location) const;
 
-    void passOneDay(Date &currentDate) const;
-    void passMultipleDays(Date &currentDate, unsigned days) const;
+    void passOneDay();
+    void passMultipleDays(unsigned days);
 
     void removeNotAliveResidents() const;
 

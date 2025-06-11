@@ -82,7 +82,7 @@ void City::addResident(Resident *resident, Location location) const
 
 void City::addResident(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health, Location location)
 {
-    if (location.x >= this->length - 1 || location.y >= this->width)
+    if (location.x >= this->length || location.y >= this->width)
     {
         // The user can correct themself
         std::cerr << "Building is outside of the city!" << std::endl;
@@ -204,7 +204,7 @@ int City::checkResidentPosition(const char *name, Location location) const
     return this->buildings[location.y][location.x]->checkResidentPosition(name);
 }
 
-void City::passOneDay(Date &currentDate) const
+void City::passOneDay()
 {
     for (int i = 0; i < this->width; i++)
     {
@@ -216,18 +216,17 @@ void City::passOneDay(Date &currentDate) const
                 // that's why we throw an exception
                 throw std::invalid_argument("Building does not exist!");
             }
-
-            this->buildings[i][j]->passOneDay(currentDate);
+            this->buildings[i][j]->passOneDay(this->currentDate);
         }
     }
-    currentDate.passOneDay();
+    this->currentDate.passOneDay();
 }
 
-void City::passMultipleDays(Date &currentDate, unsigned days) const
+void City::passMultipleDays(unsigned days)
 {
     for (int i = 0; i < days; i++)
     {
-        this->passOneDay(currentDate);
+        this->passOneDay();
     }
 }
 
