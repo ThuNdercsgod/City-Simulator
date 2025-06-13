@@ -49,8 +49,6 @@ void Building::saveToFile(std::ofstream &save) const
     }
     save.write((const char *)&this->location, sizeof(Location));
     save.write((const char *)&this->locationType, sizeof(LocationType));
-    save.write((const char *)&this->rent, sizeof(double));
-    save.write((const char *)&this->capacity, sizeof(unsigned));
     save.write((const char *)&this->numOfResidents, sizeof(unsigned));
 
     for (int i = 0; i < this->numOfResidents; i++)
@@ -60,6 +58,25 @@ void Building::saveToFile(std::ofstream &save) const
             throw std::invalid_argument("Resident does not exist!");
         }
         this->residents[i]->saveToFile(save);
+    }
+}
+
+Building *Building::loadFromFile(std::ifstream &load, BuildingType buildingType, Location location, LocationType locationType, unsigned numOfResidents)
+{
+    switch (buildingType)
+    {
+    case BuildingType::Modern:
+        return new Modern(load, location, locationType, numOfResidents);
+        break;
+    case BuildingType::Old:
+        return new Old(load, location, locationType, numOfResidents);
+        break;
+    case BuildingType::Dormitory:
+        return new Dormitory(load, location, locationType, numOfResidents);
+        break;
+    default:
+        throw std::invalid_argument("Invalid building type");
+        break;
     }
 }
 
@@ -86,6 +103,9 @@ Building *Building::Factory(BuildingType buildingType, Location location, Locati
 // Might throw std::invalid_argument or std::bad_alloc
 void Building::addResident(Resident *resident)
 {
+    if (resident == nullptr)
+    {
+    }
     if (this->numOfResidents == this->capacity)
     {
         std::cerr << "Building is full!" << std::endl;
@@ -102,7 +122,7 @@ void Building::addResident(Resident *resident)
         // Create a new array with one pointer, pointing to the new Resident
         this->residents = new Resident *[1];
         this->residents[0] = resident;
-        this->numOfResidents = 1;
+        this->numOfResidents++;
     }
     else
     {
@@ -123,7 +143,7 @@ void Building::addResident(Resident *resident)
         this->numOfResidents++;
     }
     // Make the Resident know his Building
-    resident->setBuilding(this);
+    this->residents[this->numOfResidents - 1]->setBuilding(this);
 }
 
 // Might throw std::invalid_argument or std::bad_alloc
@@ -138,6 +158,10 @@ void Building::removeResident(Resident *resident)
 
     // New collection without the removed Resident
     Resident **temp = new Resident *[this->numOfResidents - 1];
+
+    // Remove the Building from the Resident
+    this->residents[index]->setBuilding(nullptr);
+
     for (int i = 0; i < index; i++)
     {
         // Assigning everyone before the removed one
@@ -153,9 +177,6 @@ void Building::removeResident(Resident *resident)
     // Assigning this->residents to the corrected collection
     this->residents = temp;
     this->numOfResidents--;
-
-    // Remove the Building from the Resident
-    resident->setBuilding(nullptr);
 }
 
 void Building::removeResident(const char *name)

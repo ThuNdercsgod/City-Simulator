@@ -33,7 +33,7 @@ City::City(unsigned length, unsigned width, Date date)
         this->buildings[i] = new (std::nothrow) Building *[length];
         if (!this->buildings[i])
         {
-            clearBuildings(length, i);
+            this->clearBuildings(length, i);
             throw std::bad_alloc();
         }
 
@@ -87,6 +87,56 @@ void City::saveToFile(const char *fileName) const
             this->buildings[i][j]->saveToFile(save);
         }
     }
+
+    save.close();
+}
+
+City *City::loadFromFile(const char *fileName)
+{
+    std::ifstream load(fileName, std::ios::binary);
+    if (!load.is_open())
+    {
+        throw std::ios_base::failure("File opening error!");
+    }
+
+    unsigned length, width;
+    Date startDate(1, 1, 2020), currentDate(1, 1, 2020);
+
+    load.read((char *)&length, sizeof(unsigned));
+    load.read((char *)&width, sizeof(unsigned));
+    load.read((char *)&startDate, sizeof(Date));
+    load.read((char *)&currentDate, sizeof(Date));
+
+    City *city = new City(length, width, startDate, currentDate);
+
+    city->buildings = new Building **[city->width];
+
+    BuildingType type;
+    Location location(0, 0);
+    LocationType locationType;
+    unsigned numOfResidents;
+
+    for (int i = 0; i < width; i++)
+    {
+        city->buildings[i] = new (std::nothrow) Building *[length];
+        if (!city->buildings[i])
+        {
+            city->clearBuildings(length, i);
+            throw std::bad_alloc();
+        }
+        for (int j = 0; j < length; j++)
+        {
+            load.read((char *)&type, sizeof(BuildingType));
+            load.read((char *)&location, sizeof(Location));
+            load.read((char *)&locationType, sizeof(LocationType));
+            load.read((char *)&numOfResidents, sizeof(unsigned));
+            city->buildings[i][j] = Building::loadFromFile(load, type, location, locationType, numOfResidents);
+        }
+    }
+
+    load.close();
+
+    return city;
 }
 
 // Might throw std::invalid_argument or std::bad_alloc
@@ -341,6 +391,17 @@ Date City::getStartDate() const
 Date City::getCurrentDate() const
 {
     return this->currentDate;
+}
+
+City::City(unsigned length, unsigned width, Date startingDate, Date currentDate)
+    : length(length), width(width), startDate(startDate), currentDate(currentDate), centerPoint(length / 2, width / 2)
+{
+    // Cannot have a City without Buildings or with 101x101 size
+    if (length == 0 || width == 0 ||
+        length > 100 || width > 100)
+    {
+        throw std::invalid_argument("Invalid size of City!");
+    }
 }
 
 void City::clearBuildings(unsigned length, unsigned width)

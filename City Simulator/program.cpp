@@ -256,6 +256,19 @@ void Program::saveToFile(City *city)
     city->saveToFile(fileName);
 }
 
+City *Program::loadFromFile()
+{
+    City *city = nullptr;
+
+    char fileName[64];
+    std::cout << "Enter <file name>:" << std::endl;
+    std::cin >> fileName;
+
+    city = City::loadFromFile(fileName);
+
+    return city;
+}
+
 void Test::BuildingTest::basic()
 {
     Location location(0, 0);

@@ -19,6 +19,7 @@ namespace Program
     void infoResident(City *city);
 
     void saveToFile(City *city);
+    City *loadFromFile();
 };
 
 namespace Test

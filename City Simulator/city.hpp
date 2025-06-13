@@ -17,6 +17,7 @@ public:
     City &operator=(const City &other) = delete;
 
     void saveToFile(const char *fileName) const;
+    static City *loadFromFile(const char *fileName);
 
     void addResident(Resident *resident, Location location) const;
     void addResident(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health, Location location);
@@ -44,6 +45,8 @@ public:
     Date getCurrentDate() const;
 
 private:
+    City(unsigned length, unsigned width, Date startingDate, Date currentDate);
+
     void clearBuildings(unsigned length, unsigned width);
 
     const unsigned length;

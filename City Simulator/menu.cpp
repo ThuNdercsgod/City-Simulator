@@ -102,7 +102,14 @@ void Command::program()
         case 9:
             Program::saveToFile(this->city);
             break;
-        // TODO save and load
+        case 10:
+            if (city != nullptr)
+            {
+                std::cerr << "City already exists!" << std::endl;
+                break;
+            }
+            city = Program::loadFromFile();
+            break;
         default:
             std::cerr << "Invalid input!" << std::endl;
             break;
