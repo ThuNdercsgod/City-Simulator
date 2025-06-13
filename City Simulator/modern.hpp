@@ -7,6 +7,7 @@ class Modern : public Building
 public:
     Modern() = delete;
     Modern(Location location, Location centerPoint, unsigned length, unsigned width);
+    Modern(std::ifstream &load, Location location, LocationType locationType, unsigned numOfResidents);
     // No copy constructor, because it will copy the Residents
     Modern(const Modern &other) = delete;
 
