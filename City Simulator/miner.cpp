@@ -7,7 +7,7 @@
 Miner::Miner(const char *name)
     : Resident(name) {}
 
-Miner::Miner(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health)
+Miner::Miner(const char *name, unsigned happiness, unsigned money, unsigned health)
     : Resident(name, happiness, money, health) {}
 
 void Miner::passOneDay(Date &currentDate)

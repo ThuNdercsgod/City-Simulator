@@ -7,7 +7,7 @@ class Unemployed : public Resident
 public:
     Unemployed() = delete;
     Unemployed(const char *name);
-    Unemployed(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health);
+    Unemployed(const char *name, unsigned happiness, unsigned money, unsigned health);
     Unemployed(const Unemployed &other) = delete;
 
     Unemployed &operator=(const Unemployed &other) = delete;

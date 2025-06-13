@@ -7,7 +7,7 @@
 Programmer::Programmer(const char *name)
     : Resident(name) {}
 
-Programmer::Programmer(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health)
+Programmer::Programmer(const char *name, unsigned happiness, unsigned money, unsigned health)
     : Resident(name, happiness, money, health) {}
 
 void Programmer::passOneDay(Date &currentDate)
