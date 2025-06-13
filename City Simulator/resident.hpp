@@ -17,7 +17,6 @@ public:
     static Resident *Factory(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health);
 
     Resident &operator=(const Resident &other) = delete; // Cannot have 2 identical Residents
-    // bool operator==(const Resident &other) const;
 
     void saveToFile(std::ofstream &save) const;
 

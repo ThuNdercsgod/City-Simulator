@@ -50,7 +50,7 @@ void Resident::saveToFile(std::ofstream &save) const
     }
     unsigned nameSize = strlen(this->name);
     save.write((const char *)&nameSize, sizeof(unsigned));
-    save.write(this->name, nameSize + 1);
+    save.write(this->name, nameSize);
     save.write((const char *)&this->happiness, sizeof(unsigned));
     save.write((const char *)&this->money, sizeof(unsigned));
     save.write((const char *)&this->health, sizeof(unsigned));
