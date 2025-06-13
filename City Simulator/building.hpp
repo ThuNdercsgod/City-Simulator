@@ -1,5 +1,7 @@
 #pragma once
 
+#include <fstream>
+
 #include "aspects.hpp"
 
 class Resident;
@@ -10,6 +12,10 @@ public:
     Building() = delete;
     Building(const Building &other) = delete;
     virtual ~Building();
+
+    Building &operator=(const Building &other) = delete;
+
+    void saveToFile(std::ofstream &save) const;
 
     static Building *Factory(BuildingType buildingType, Location location, Location centerPoint, unsigned length, unsigned width);
 
@@ -45,13 +51,14 @@ protected:
 
     void setRent(double rent);
     void setLocationType(LocationType locationType);
+    void setNumOfResidents(unsigned numOfResidents);
     void setCapacity(unsigned capacity);
 
 private:
     double rent = 0;
     Location location;
     LocationType locationType = LocationType::Normal;
-    Resident **residents = nullptr;
     unsigned numOfResidents = 0;
     unsigned capacity = 0;
+    Resident **residents = nullptr;
 };

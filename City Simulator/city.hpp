@@ -14,7 +14,10 @@ public:
     City(const City &other) = delete;
     ~City();
 
-    // TODO maybe also add them with Resident name
+    City &operator=(const City &other) = delete;
+
+    void saveToFile(const char *fileName) const;
+
     void addResident(Resident *resident, Location location) const;
     void addResident(const char *name, Profession profession, unsigned happiness, unsigned money, unsigned health, Location location);
     void removeResident(Resident *resident, Location location) const;
@@ -29,7 +32,6 @@ public:
 
     void removeNotAliveResidents() const;
 
-    // TODO Make it look cleaner
     void print() const;
     void printBuilding(Location location) const;
     void printResident(const char *name, Location location) const;

@@ -17,6 +17,8 @@ namespace Program
     void info(City *city);
     void infoBuilding(City *city);
     void infoResident(City *city);
+
+    void saveToFile(City *city);
 };
 
 namespace Test

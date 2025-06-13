@@ -28,10 +28,15 @@ int main()
         std::cerr << e.what() << std::endl;
         return 2;
     }
-    catch (const std::exception &e)
+    catch (const std::ios_base::failure &e)
     {
         std::cerr << e.what() << std::endl;
         return 3;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << std::endl;
+        return 4;
     }
 
     return 0;

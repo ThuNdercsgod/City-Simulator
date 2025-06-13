@@ -241,6 +241,21 @@ void Program::infoResident(City *city)
     city->printResident(name, location);
 }
 
+void Program::saveToFile(City *city)
+{
+    if (city == nullptr)
+    {
+        std::cerr << "City is not yet created!" << std::endl;
+        return;
+    }
+
+    char fileName[64];
+    std::cout << "Enter <file name>:" << std::endl;
+    std::cin >> fileName;
+
+    city->saveToFile(fileName);
+}
+
 void Test::BuildingTest::basic()
 {
     Location location(0, 0);

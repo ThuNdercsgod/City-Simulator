@@ -1,5 +1,7 @@
 #pragma once
 
+#include <fstream>
+
 #include "aspects.hpp"
 
 class Building;
@@ -16,6 +18,8 @@ public:
 
     Resident &operator=(const Resident &other) = delete; // Cannot have 2 identical Residents
     // bool operator==(const Resident &other) const;
+
+    void saveToFile(std::ofstream &save) const;
 
     virtual void passOneDay(Date &currentDate) = 0;
     virtual void passMultipleDays(Date &currentDate, unsigned days) = 0;

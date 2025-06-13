@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <random>
 #include <stdexcept>
@@ -60,6 +61,32 @@ City::City(unsigned length, unsigned width, Date date)
 City::~City()
 {
     this->clearBuildings(this->length, this->width);
+}
+
+void City::saveToFile(const char *fileName) const
+{
+    std::ofstream save(fileName, std::ios::binary);
+    if (!save.is_open())
+    {
+        throw std::ios_base::failure("File opening error!");
+    }
+
+    save.write((const char *)&this->length, sizeof(unsigned));
+    save.write((const char *)&this->width, sizeof(unsigned));
+    save.write((const char *)&this->startDate, sizeof(Date));
+    save.write((const char *)&this->currentDate, sizeof(Date));
+
+    for (int i = 0; i < this->width; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            if (this->buildings[i][j] == nullptr)
+            {
+                throw std::invalid_argument("Building does not exist!");
+            }
+            this->buildings[i][j]->saveToFile(save);
+        }
+    }
 }
 
 // Might throw std::invalid_argument or std::bad_alloc

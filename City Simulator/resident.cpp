@@ -17,6 +17,45 @@ Resident::~Resident()
     this->name = nullptr;
 }
 
+void Resident::saveToFile(std::ofstream &save) const
+{
+    if (!save.is_open())
+    {
+        throw std::ios_base::failure("File opening error!");
+    }
+
+    if (strcmp(this->getProfession(), "Teacher") == 0)
+    {
+        Profession profession = Profession::Teacher;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else if (strcmp(this->getProfession(), "Programmer") == 0)
+    {
+        Profession profession = Profession::Programmer;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else if (strcmp(this->getProfession(), "Miner") == 0)
+    {
+        Profession profession = Profession::Miner;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else if (strcmp(this->getProfession(), "Unemployed") == 0)
+    {
+        Profession profession = Profession::Unemployed;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else
+    {
+        throw std::invalid_argument("Invalid Resident profession!");
+    }
+    unsigned nameSize = strlen(this->name);
+    save.write((const char *)&nameSize, sizeof(unsigned));
+    save.write(this->name, nameSize + 1);
+    save.write((const char *)&this->happiness, sizeof(unsigned));
+    save.write((const char *)&this->money, sizeof(unsigned));
+    save.write((const char *)&this->health, sizeof(unsigned));
+}
+
 // Might throw std::bad_alloc or std::invalid_argument
 Resident *Resident::Factory(const char *name, Profession profession)
 {
@@ -46,16 +85,16 @@ Resident *Resident::Factory(const char *name, Profession profession, unsigned ha
     switch (profession)
     {
     case Profession::Teacher:
-        return new Teacher(name, profession, happiness, money, health);
+        return new Teacher(name, happiness, money, health);
         break;
     case Profession::Programmer:
-        return new Programmer(name, profession, happiness, money, health);
+        return new Programmer(name, happiness, money, health);
         break;
     case Profession::Miner:
-        return new Miner(name, profession, happiness, money, health);
+        return new Miner(name, happiness, money, health);
         break;
     case Profession::Unemployed:
-        return new Unemployed(name, profession, happiness, money, health);
+        return new Unemployed(name, happiness, money, health);
         break;
     default:
         throw std::invalid_argument("Invalid Profession!");

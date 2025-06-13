@@ -99,6 +99,9 @@ void Command::program()
         case 8:
             Program::info(this->city);
             break;
+        case 9:
+            Program::saveToFile(this->city);
+            break;
         // TODO save and load
         default:
             std::cerr << "Invalid input!" << std::endl;
