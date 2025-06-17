@@ -36,6 +36,8 @@ public:
     Date(unsigned day, unsigned month, unsigned year);
     Date(const Date &other) = default;
 
+    bool operator==(const Date &other) const;
+
     void passOneDay();
     void passMultipleDays(unsigned days);
 

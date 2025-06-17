@@ -148,7 +148,6 @@ void Program::stepOne(City *city)
     }
 
     city->passOneDay();
-    city->removeNotAliveResidents();
 }
 
 void Program::stepMultiple(City *city)
@@ -159,21 +158,22 @@ void Program::stepMultiple(City *city)
         return;
     }
 
-    int days = -1;
+    int days;
 
     std::cout << "Enter <days>:" << std::endl;
     std::cin >> days;
 
-    if (days == -1 || days <= 0)
+    if (days == 0)
+    {
+        return;
+    }
+    else if (days < 0)
     {
         std::cerr << "Invalid command!" << std::endl;
         return;
     }
 
-    for (int i = 0; i < days; i++)
-    {
-        Program::stepOne(city);
-    }
+    city->passMultipleDays(days);
 }
 
 void Program::info(City *city)

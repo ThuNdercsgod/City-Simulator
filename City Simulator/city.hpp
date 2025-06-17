@@ -47,6 +47,8 @@ public:
 private:
     City(unsigned length, unsigned width, Date startingDate, Date currentDate);
     void autoSave() const;
+    // bool goBackOneDay();
+    // void goBackMultipleDays(int days);
     void clearBuildings(unsigned length, unsigned width);
 
 private:

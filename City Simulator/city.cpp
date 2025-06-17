@@ -126,8 +126,6 @@ City *City::loadFromFile(const char *fileName)
     load.seekg(0, std::ios_base::end);
     load.seekg(-(size), std::ios_base::cur);
 
-    std::cout << load.tellg() << std::endl;
-
     unsigned length, width;
     Date startDate(1, 1, 2020), currentDate(1, 1, 2020);
 
@@ -135,8 +133,6 @@ City *City::loadFromFile(const char *fileName)
     load.read((char *)&width, sizeof(unsigned));
     load.read((char *)&startDate, sizeof(Date));
     load.read((char *)&currentDate, sizeof(Date));
-
-    std::cout << length << " " << width << std::endl;
 
     City *city = new City(length, width, startDate, currentDate);
 
@@ -334,11 +330,16 @@ void City::passOneDay()
         }
     }
     this->currentDate.passOneDay();
+    this->removeNotAliveResidents();
     this->autoSave();
 }
 
 void City::passMultipleDays(unsigned days)
 {
+    if (days == 0)
+    {
+        return;
+    }
     for (int i = 0; i < days; i++)
     {
         this->passOneDay();
@@ -475,8 +476,6 @@ void City::autoSave() const
     }
 
     save.write((const char *)&size, sizeof(unsigned));
-
-    std::cout << size << std::endl;
 
     save.close();
 }

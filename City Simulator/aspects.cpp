@@ -45,6 +45,17 @@ Date::Date(unsigned day, unsigned month, unsigned year)
     this->year = year;
 }
 
+bool Date::operator==(const Date &other) const
+{
+    if (this->day == other.day &&
+        this->month == other.month &&
+        this->year == other.year)
+    {
+        return true;
+    }
+    return false;
+}
+
 void Date::passOneDay()
 {
     switch (this->month)
