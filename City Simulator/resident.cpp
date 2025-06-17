@@ -17,45 +17,6 @@ Resident::~Resident()
     this->name = nullptr;
 }
 
-void Resident::saveToFile(std::ofstream &save) const
-{
-    if (!save.is_open())
-    {
-        throw std::ios_base::failure("File opening error!");
-    }
-
-    if (strcmp(this->getProfession(), "Teacher") == 0)
-    {
-        Profession profession = Profession::Teacher;
-        save.write((const char *)&profession, sizeof(Profession));
-    }
-    else if (strcmp(this->getProfession(), "Programmer") == 0)
-    {
-        Profession profession = Profession::Programmer;
-        save.write((const char *)&profession, sizeof(Profession));
-    }
-    else if (strcmp(this->getProfession(), "Miner") == 0)
-    {
-        Profession profession = Profession::Miner;
-        save.write((const char *)&profession, sizeof(Profession));
-    }
-    else if (strcmp(this->getProfession(), "Unemployed") == 0)
-    {
-        Profession profession = Profession::Unemployed;
-        save.write((const char *)&profession, sizeof(Profession));
-    }
-    else
-    {
-        throw std::invalid_argument("Invalid Resident profession!");
-    }
-    unsigned nameSize = strlen(this->name);
-    save.write((const char *)&nameSize, sizeof(unsigned));
-    save.write(this->name, nameSize);
-    save.write((const char *)&this->happiness, sizeof(unsigned));
-    save.write((const char *)&this->money, sizeof(unsigned));
-    save.write((const char *)&this->health, sizeof(unsigned));
-}
-
 // Might throw std::bad_alloc or std::invalid_argument
 Resident *Resident::Factory(const char *name, Profession profession)
 {
@@ -100,6 +61,90 @@ Resident *Resident::Factory(const char *name, Profession profession, unsigned ha
         throw std::invalid_argument("Invalid Profession!");
         break;
     }
+}
+
+void Resident::saveToFile(std::ofstream &save) const
+{
+    if (!save.is_open())
+    {
+        throw std::ios_base::failure("File opening error!");
+    }
+
+    if (strcmp(this->getProfession(), "Teacher") == 0)
+    {
+        Profession profession = Profession::Teacher;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else if (strcmp(this->getProfession(), "Programmer") == 0)
+    {
+        Profession profession = Profession::Programmer;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else if (strcmp(this->getProfession(), "Miner") == 0)
+    {
+        Profession profession = Profession::Miner;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else if (strcmp(this->getProfession(), "Unemployed") == 0)
+    {
+        Profession profession = Profession::Unemployed;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else
+    {
+        throw std::invalid_argument("Invalid Resident profession!");
+    }
+    unsigned nameSize = strlen(this->name);
+    save.write((const char *)&nameSize, sizeof(unsigned));
+    save.write(this->name, nameSize);
+    save.write((const char *)&this->happiness, sizeof(unsigned));
+    save.write((const char *)&this->money, sizeof(unsigned));
+    save.write((const char *)&this->health, sizeof(unsigned));
+}
+
+void Resident::autoSave(std::ofstream &save, unsigned &size) const
+{
+    if (!save.is_open())
+    {
+        throw std::ios_base::failure("File opening error!");
+    }
+
+    if (strcmp(this->getProfession(), "Teacher") == 0)
+    {
+        Profession profession = Profession::Teacher;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else if (strcmp(this->getProfession(), "Programmer") == 0)
+    {
+        Profession profession = Profession::Programmer;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else if (strcmp(this->getProfession(), "Miner") == 0)
+    {
+        Profession profession = Profession::Miner;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else if (strcmp(this->getProfession(), "Unemployed") == 0)
+    {
+        Profession profession = Profession::Unemployed;
+        save.write((const char *)&profession, sizeof(Profession));
+    }
+    else
+    {
+        throw std::invalid_argument("Invalid Resident profession!");
+    }
+    size += sizeof(Profession);
+    unsigned nameSize = strlen(this->name);
+    save.write((const char *)&nameSize, sizeof(unsigned));
+    size += sizeof(unsigned);
+    save.write(this->name, nameSize);
+    size += nameSize;
+    save.write((const char *)&this->happiness, sizeof(unsigned));
+    size += sizeof(unsigned);
+    save.write((const char *)&this->money, sizeof(unsigned));
+    size += sizeof(unsigned);
+    save.write((const char *)&this->health, sizeof(unsigned));
+    size += sizeof(unsigned);
 }
 
 // Location and position needed to create a unique id

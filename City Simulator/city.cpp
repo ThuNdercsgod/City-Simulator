@@ -1,3 +1,4 @@
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <random>
@@ -56,15 +57,26 @@ City::City(unsigned length, unsigned width, Date date)
             }
         }
     }
+
+    this->autoSave();
 }
 
 City::~City()
 {
     this->clearBuildings(this->length, this->width);
+
+    std::fstream file("data.bin", std::ios::binary | std::ios_base::trunc);
+    file.close();
 }
 
 void City::saveToFile(const char *fileName) const
 {
+    if (strcmp(fileName, "data.bin") == 0)
+    {
+        std::cerr << "File name already taken! Please choose another one!" << std::endl;
+        return;
+    }
+
     std::ofstream save(fileName, std::ios::binary);
     if (!save.is_open())
     {
@@ -297,6 +309,7 @@ void City::passOneDay()
         }
     }
     this->currentDate.passOneDay();
+    this->autoSave();
 }
 
 void City::passMultipleDays(unsigned days)
@@ -402,6 +415,43 @@ City::City(unsigned length, unsigned width, Date startingDate, Date currentDate)
     {
         throw std::invalid_argument("Invalid size of City!");
     }
+}
+
+// Might throw std::ios_base::failure
+void City::autoSave() const
+{
+    unsigned size = 0;
+
+    std::ofstream save("data.bin", std::ios::binary | std::ios_base::ate);
+    if (!save.is_open())
+    {
+        throw std::ios_base::failure("File opening error!");
+    }
+
+    save.write((const char *)&this->length, sizeof(unsigned));
+    size += sizeof(unsigned);
+    save.write((const char *)&this->width, sizeof(unsigned));
+    size += sizeof(unsigned);
+    save.write((const char *)&this->startDate, sizeof(Date));
+    size += sizeof(Date);
+    save.write((const char *)&this->currentDate, sizeof(Date));
+    size += sizeof(Date);
+
+    for (int i = 0; i < this->width; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            if (this->buildings[i][j] == nullptr)
+            {
+                throw std::invalid_argument("Building does not exist!");
+            }
+            this->buildings[i][j]->autoSave(save, size);
+        }
+    }
+
+    save.write((const char *)&size, sizeof(unsigned));
+
+    save.close();
 }
 
 void City::clearBuildings(unsigned length, unsigned width)

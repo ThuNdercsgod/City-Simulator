@@ -21,6 +21,7 @@ Building::~Building()
     this->residents = nullptr;
 }
 
+// Might throw std::ios_base::failure
 void Building::saveToFile(std::ofstream &save) const
 {
     if (!save.is_open())
@@ -58,6 +59,50 @@ void Building::saveToFile(std::ofstream &save) const
             throw std::invalid_argument("Resident does not exist!");
         }
         this->residents[i]->saveToFile(save);
+    }
+}
+
+void Building::autoSave(std::ofstream &save, unsigned &size) const
+{
+    if (!save.is_open())
+    {
+        throw std::ios_base::failure("File opening error!");
+    }
+
+    if (strcmp(this->getType(), "Modern") == 0)
+    {
+        BuildingType type = BuildingType::Modern;
+        save.write((const char *)&type, sizeof(BuildingType));
+    }
+    else if (strcmp(this->getType(), "Old") == 0)
+    {
+        BuildingType type = BuildingType::Old;
+        save.write((const char *)&type, sizeof(BuildingType));
+    }
+    else if (strcmp(this->getType(), "Dormitory") == 0)
+    {
+        BuildingType type = BuildingType::Dormitory;
+        save.write((const char *)&type, sizeof(BuildingType));
+    }
+    else
+    {
+        throw std::invalid_argument("Invalid building type");
+    }
+    size += sizeof(BuildingType);
+    save.write((const char *)&this->location, sizeof(Location));
+    size += sizeof(Location);
+    save.write((const char *)&this->locationType, sizeof(LocationType));
+    size += sizeof(LocationType);
+    save.write((const char *)&this->numOfResidents, sizeof(unsigned));
+    size += sizeof(unsigned);
+
+    for (int i = 0; i < this->numOfResidents; i++)
+    {
+        if (this->residents[i] == nullptr)
+        {
+            throw std::invalid_argument("Resident does not exist!");
+        }
+        this->residents[i]->autoSave(save, size);
     }
 }
 

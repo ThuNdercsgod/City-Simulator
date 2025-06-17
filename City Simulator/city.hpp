@@ -46,9 +46,10 @@ public:
 
 private:
     City(unsigned length, unsigned width, Date startingDate, Date currentDate);
-
+    void autoSave() const;
     void clearBuildings(unsigned length, unsigned width);
 
+private:
     const unsigned length;
     const unsigned width;
     const Location centerPoint;
