@@ -15,7 +15,7 @@ public:
 
     Building &operator=(const Building &other) = delete;
 
-    void saveToFile(std::ofstream &save) const;
+    // void saveToFile(std::ofstream &save) const;
     void autoSave(std::ofstream &save, unsigned &size) const;
     static Building *loadFromFile(std::ifstream &load, BuildingType buildingType, Location location, LocationType locationType, unsigned numOfResidents);
 

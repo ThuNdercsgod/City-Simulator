@@ -65,7 +65,7 @@ City::~City()
 {
     this->clearBuildings(this->length, this->width);
 
-    std::fstream file("data.bin", std::ios::binary | std::ios_base::trunc);
+    std::ofstream file("data.bin", std::ios::binary | std::ios_base::trunc);
     file.close();
 }
 
@@ -82,25 +82,17 @@ void City::saveToFile(const char *fileName) const
     {
         throw std::ios_base::failure("File opening error!");
     }
-
-    save.write((const char *)&this->length, sizeof(unsigned));
-    save.write((const char *)&this->width, sizeof(unsigned));
-    save.write((const char *)&this->startDate, sizeof(Date));
-    save.write((const char *)&this->currentDate, sizeof(Date));
-
-    for (int i = 0; i < this->width; i++)
+    std::ifstream load("data.bin", std::ios::binary);
+    if (!load.is_open())
     {
-        for (int j = 0; j < this->length; j++)
-        {
-            if (this->buildings[i][j] == nullptr)
-            {
-                throw std::invalid_argument("Building does not exist!");
-            }
-            this->buildings[i][j]->saveToFile(save);
-        }
+        throw std::ios_base::failure("File opening error!");
     }
 
+    // Copy the entire content of the temporary "data.bin" onto the permanent save file
+    save << load.rdbuf();
+
     save.close();
+    load.close();
 }
 
 City *City::loadFromFile(const char *fileName)
@@ -111,6 +103,31 @@ City *City::loadFromFile(const char *fileName)
         throw std::ios_base::failure("File opening error!");
     }
 
+    load.seekg(0, std::ios_base::end);
+    unsigned sizeOfFile = load.tellg();
+
+    if (sizeOfFile < sizeof(unsigned))
+    {
+        load.close();
+        throw std::ios_base::failure("File reading error!");
+    }
+
+    int size;
+    load.seekg(-sizeof(unsigned), std::ios_base::end);
+    load.read((char *)&size, sizeof(unsigned));
+    size += sizeof(unsigned);
+
+    if (sizeOfFile < size)
+    {
+        load.close();
+        throw std::ios_base::failure("File reading error!");
+    }
+
+    load.seekg(0, std::ios_base::end);
+    load.seekg(-(size), std::ios_base::cur);
+
+    std::cout << load.tellg() << std::endl;
+
     unsigned length, width;
     Date startDate(1, 1, 2020), currentDate(1, 1, 2020);
 
@@ -118,6 +135,8 @@ City *City::loadFromFile(const char *fileName)
     load.read((char *)&width, sizeof(unsigned));
     load.read((char *)&startDate, sizeof(Date));
     load.read((char *)&currentDate, sizeof(Date));
+
+    std::cout << length << " " << width << std::endl;
 
     City *city = new City(length, width, startDate, currentDate);
 
@@ -146,6 +165,12 @@ City *City::loadFromFile(const char *fileName)
         }
     }
 
+    std::ofstream data("data.bin", std::ios::binary | std::ios::trunc);
+
+    load.seekg(0, std::ios_base::beg);
+    data << load.rdbuf();
+
+    data.close();
     load.close();
 
     return city;
@@ -422,7 +447,7 @@ void City::autoSave() const
 {
     unsigned size = 0;
 
-    std::ofstream save("data.bin", std::ios::binary | std::ios_base::ate);
+    std::ofstream save("data.bin", std::ios::binary | std::ios_base::app);
     if (!save.is_open())
     {
         throw std::ios_base::failure("File opening error!");
@@ -450,6 +475,8 @@ void City::autoSave() const
     }
 
     save.write((const char *)&size, sizeof(unsigned));
+
+    std::cout << size << std::endl;
 
     save.close();
 }

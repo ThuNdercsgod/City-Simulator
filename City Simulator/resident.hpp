@@ -18,7 +18,7 @@ public:
 
     Resident &operator=(const Resident &other) = delete; // Cannot have 2 identical Residents
 
-    void saveToFile(std::ofstream &save) const;
+    // void saveToFile(std::ofstream &save) const;
     void autoSave(std::ofstream &save, unsigned &size) const;
 
     virtual void passOneDay(Date &currentDate) = 0;
