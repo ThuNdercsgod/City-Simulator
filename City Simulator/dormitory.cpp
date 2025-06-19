@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include <stdexcept>
 
 #include "dormitory.hpp"
@@ -9,10 +10,10 @@
 Dormitory::Dormitory(Location location, Location centerPoint, unsigned length, unsigned width)
     : Building(location)
 {
-    float distanceFromCenter = sqrt((centerPoint.x - location.x) * (centerPoint.x - location.x) -
+    float distanceFromCenter = sqrt((centerPoint.x - location.x) * (centerPoint.x - location.x) +
                                     (centerPoint.y - location.y) * (centerPoint.y - location.y));
 
-    unsigned min = (width < length) ? width : length;
+    float min = (width < length) ? width : length;
 
     if (distanceFromCenter < (min / 8))
     {
