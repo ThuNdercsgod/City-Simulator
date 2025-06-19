@@ -474,6 +474,7 @@ void Building::createRandomResidents()
             this->residents[i] = nullptr;
             i--;
         }
+        this->residents[i]->setBuilding(this);
     }
 }
 
