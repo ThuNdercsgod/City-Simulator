@@ -11,5 +11,7 @@ public:
     // No copy constructor, because it will copy the Residents
     Modern(const Modern &other) = delete;
 
+    Modern &operator=(const Modern &other) = delete;
+
     const char *getType() const override;
 };

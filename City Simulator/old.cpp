@@ -17,31 +17,19 @@ Old::Old(Location location, Location centerPoint, unsigned length, unsigned widt
     if (distanceFromCenter < (min / 8))
     {
         this->setLocationType(LocationType::Central);
+        this->setRent(500 * 2.5);
     }
     else if (distanceFromCenter > (6 * min / 8))
     {
         this->setLocationType(LocationType::Outer);
+        this->setRent(500 - (0.2 * 500));
     }
     else
     {
         this->setLocationType(LocationType::Normal);
+        this->setRent(500);
     }
 
-    switch (this->getLocationType())
-    {
-    case LocationType::Normal:
-        this->setRent(500);
-        break;
-    case LocationType::Central:
-        this->setRent(500 * 2.5);
-        break;
-    case LocationType::Outer:
-        this->setRent(500 - (0.2 * 500));
-        break;
-    default:
-        throw std::invalid_argument("Invalid location for Building!");
-        break;
-    }
     this->setCapacity(20);
     this->createRandomResidents();
 }
