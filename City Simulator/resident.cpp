@@ -149,7 +149,7 @@ void Resident::autoSave(std::ofstream &save, unsigned &size) const
 
 // Location and position needed to create a unique id
 // Might throw std::invalid_argument or std::bad_alloc
-Resident *Resident::createRandomResident(Location location, unsigned position)
+Resident *Resident::createRandomResident()
 {
     // Generate random Resident profession
     // Algorithm taken from StackOverflow
@@ -161,7 +161,6 @@ Resident *Resident::createRandomResident(Location location, unsigned position)
 
     unsigned profession = dist(gen);
     const char *name = Resident::createRandomName();
-    unsigned id = location.x * 10000 + location.y * 100 + position;
 
     switch (profession)
     {
@@ -317,16 +316,37 @@ const char *Resident::createRandomName()
 
 void Resident::setHappiness(unsigned happiness)
 {
+    if (happiness == 0)
+    {
+        this->happiness = 0;
+        this->money = 0;
+        this->health = 0;
+        this->isAlive = false;
+    }
     this->happiness = happiness;
 }
 
 void Resident::setMoney(unsigned money)
 {
+    if (money == 0)
+    {
+        this->happiness = 0;
+        this->money = 0;
+        this->health = 0;
+        this->isAlive = false;
+    }
     this->money = money;
 }
 
 void Resident::setHealth(unsigned health)
 {
+    if (health == 0)
+    {
+        this->happiness = 0;
+        this->money = 0;
+        this->health = 0;
+        this->isAlive = false;
+    }
     this->health = health;
 }
 

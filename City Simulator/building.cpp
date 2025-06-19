@@ -150,6 +150,7 @@ void Building::addResident(Resident *resident)
 {
     if (resident == nullptr)
     {
+        return;
     }
     if (this->numOfResidents == this->capacity)
     {
@@ -233,11 +234,21 @@ void Building::removeResident(const char *name)
         return;
     }
 
+    if (this->numOfResidents == 1 && index == 0)
+    {
+        delete this->residents[index];
+        this->residents[index] = nullptr;
+        delete[] this->residents;
+        this->residents = nullptr;
+    }
+
     // New collection without the removed Resident
     Resident **temp = new Resident *[this->numOfResidents - 1];
 
     // Remove the Building from the Resident
     this->residents[index]->setBuilding(nullptr);
+    delete this->residents[index];
+    this->residents[index] = nullptr;
 
     for (int i = 0; i < index; i++)
     {
@@ -336,13 +347,9 @@ void Building::passOneDay(Date &currentDate) const
 
 void Building::passMultipleDays(Date &currentDate, unsigned days) const
 {
-    for (int i = 0; i < this->numOfResidents; i++)
+    for (int i = 0; i < days; i++)
     {
-        if (this->residents[i] == nullptr)
-        {
-            throw std::invalid_argument("Resident does not exist!");
-        }
-        this->residents[i]->passMultipleDays(currentDate, days);
+        passOneDay(currentDate);
     }
 }
 
@@ -466,7 +473,7 @@ void Building::createRandomResidents()
 
     for (unsigned i = 0; i < this->numOfResidents; i++)
     {
-        this->residents[i] = Resident::createRandomResident(this->location, i);
+        this->residents[i] = Resident::createRandomResident();
         // Check so every name is unique in the Building
         if (this->checkName(this->residents[i]->getName(), i))
         {

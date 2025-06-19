@@ -24,7 +24,7 @@ public:
     virtual void passOneDay(Date &currentDate) = 0;
     virtual void passMultipleDays(Date &currentDate, unsigned days) = 0;
 
-    static Resident *createRandomResident(Location location, unsigned position);
+    static Resident *createRandomResident();
 
     void print() const;
     void printStatus() const;
