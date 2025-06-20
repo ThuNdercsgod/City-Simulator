@@ -47,5 +47,6 @@ namespace Test
     {
         void generate();
         void resident();
+        void stepDays();
     };
 };

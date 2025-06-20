@@ -417,5 +417,16 @@ void Test::SimulationTest::resident()
     std::cout << "Remove the Resident you just added at Location (2, 2):" << std::endl;
     Program::removeResident(&city);
 
-    city.printBuilding(Location(2, 2));
+    city.printBuilding(Location(0, 0));
+}
+
+void Test::SimulationTest::stepDays()
+{
+    City city(10, 5, Date(1, 1, 2020));
+
+    Program::stepOne(&city);
+    Program::info(&city);
+
+    Program::stepMultiple(&city);
+    Program::info(&city);
 }
