@@ -316,6 +316,7 @@ int City::checkResidentPosition(const char *name, Location location) const
 
 void City::passOneDay()
 {
+    this->currentDate.passOneDay();
     for (int i = 0; i < this->width; i++)
     {
         for (int j = 0; j < this->length; j++)
@@ -329,7 +330,7 @@ void City::passOneDay()
             this->buildings[i][j]->passOneDay(this->currentDate);
         }
     }
-    this->currentDate.passOneDay();
+
     this->removeNotAliveResidents();
     this->autoSave();
 }

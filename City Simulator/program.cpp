@@ -430,3 +430,29 @@ void Test::SimulationTest::stepDays()
     Program::stepMultiple(&city);
     Program::info(&city);
 }
+
+void Test::SimulationTest::info()
+{
+    City city(3, 3, Date(1, 1, 2020));
+
+    Program::info(&city);
+    Program::infoBuilding(&city);
+    Program::infoResident(&city);
+}
+
+void Test::SimulationTest::saveAndLoad()
+{
+    City city(3, 3, Date(1, 1, 2020));
+
+    city.passOneDay();
+
+    Program::saveToFile(&city);
+
+    City *newCity = nullptr;
+    std::cout << "Enter the same name of the file:" << std::endl;
+    newCity = Program::loadFromFile();
+
+    Program::info(newCity);
+
+    delete newCity;
+}

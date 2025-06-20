@@ -328,6 +328,12 @@ void Command::simulationTestMenu() const
         case 3:
             Test::SimulationTest::stepDays();
             break;
+        case 4:
+            Test::SimulationTest::info();
+            break;
+        case 5:
+            Test::SimulationTest::saveAndLoad();
+            break;
         default:
             std::cerr << "Invalid input!" << std::endl;
             break;
@@ -341,6 +347,8 @@ void Command::printSimulationTestMenu() const
               << "1. Generating tests\n"
               << "2. Resident tests\n"
               << "3. Step days tests\n"
+              << "4. Info tests\n"
+              << "5. Save and Load tests\n"
               << "0. Go back\n"
               << std::endl;
 }
