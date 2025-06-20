@@ -322,6 +322,9 @@ void Command::simulationTestMenu() const
         case 1:
             Test::SimulationTest::generate();
             break;
+        case 2:
+            Test::SimulationTest::resident();
+            break;
         default:
             std::cerr << "Invalid input!" << std::endl;
             break;
@@ -329,10 +332,11 @@ void Command::simulationTestMenu() const
     } while (loop);
 }
 
-void Command::printCityTestMenu() const
+void Command::printSimulationTestMenu() const
 {
     std::cout << "\n=== City Simulator Simulation Tests ===\n"
               << "1. Generating tests\n"
+              << "2. Resident tests\n"
               << "0. Go back\n"
               << std::endl;
 }

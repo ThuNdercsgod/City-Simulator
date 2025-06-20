@@ -402,3 +402,20 @@ void Test::SimulationTest::generate()
     delete city;
     city = nullptr;
 }
+
+void Test::SimulationTest::resident()
+{
+    City city(10, 5, Date(1, 1, 2020));
+
+    city.printBuilding(Location(2, 2));
+
+    std::cout << "Add a Resident at Location (2, 2):" << std::endl;
+    Program::addResident(&city);
+
+    city.printBuilding(Location(2, 2));
+
+    std::cout << "Remove the Resident you just added at Location (2, 2):" << std::endl;
+    Program::removeResident(&city);
+
+    city.printBuilding(Location(2, 2));
+}

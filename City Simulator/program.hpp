@@ -46,5 +46,6 @@ namespace Test
     namespace SimulationTest
     {
         void generate();
+        void resident();
     };
 };
