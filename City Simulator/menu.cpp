@@ -160,6 +160,9 @@ void Command::testsMenu() const
         case 3:
             this->cityTestMenu();
             break;
+        case 4:
+            this->simulationTestMenu();
+            break;
         default:
             std::cerr << "Invalid input!" << std::endl;
             break;
@@ -173,6 +176,7 @@ void Command::printTestsMenu() const
               << "1. Building tests\n"
               << "2. Resident tests\n"
               << "3. City tests\n"
+              << "4. Simulation tests\n"
               << "0. Go back\n"
               << std::endl;
 }
@@ -294,6 +298,41 @@ void Command::printCityTestMenu() const
               << "1. Basic tests\n"
               << "2. Pass days test\n"
               << "3. Resident tests\n"
+              << "0. Go back\n"
+              << std::endl;
+}
+
+void Command::simulationTestMenu() const
+{
+    int input;
+    bool loop;
+
+    do
+    {
+        loop = true;
+        this->printSimulationTestMenu();
+        std::cout << "Enter the number representing the command:" << std::endl;
+        std::cin >> input;
+
+        switch (input)
+        {
+        case 0:
+            loop = false;
+            break;
+        case 1:
+            Test::SimulationTest::generate();
+            break;
+        default:
+            std::cerr << "Invalid input!" << std::endl;
+            break;
+        }
+    } while (loop);
+}
+
+void Command::printCityTestMenu() const
+{
+    std::cout << "\n=== City Simulator Simulation Tests ===\n"
+              << "1. Generating tests\n"
               << "0. Go back\n"
               << std::endl;
 }

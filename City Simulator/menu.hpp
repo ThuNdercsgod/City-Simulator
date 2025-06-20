@@ -28,5 +28,8 @@ public:
     void cityTestMenu() const;
     void printCityTestMenu() const;
 
+    void simulationTestMenu() const;
+    void printSimulationTestMenu() const;
+
     City *city = nullptr;
 };

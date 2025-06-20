@@ -382,3 +382,23 @@ void Test::CityTest::resident()
     city.removeResident(resident->getName(), location);
     city.printBuilding(location);
 }
+
+void Test::SimulationTest::generate()
+{
+    City *city = nullptr;
+    city = Program::generate();
+
+    if (city == nullptr)
+    {
+        std::cout << "Generating failed!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Generating successful!" << std::endl;
+    }
+
+    Program::info(city);
+
+    delete city;
+    city = nullptr;
+}

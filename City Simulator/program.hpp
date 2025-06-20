@@ -42,4 +42,9 @@ namespace Test
         void passDays();
         void resident();
     };
+
+    namespace SimulationTest
+    {
+        void generate();
+    };
 };
